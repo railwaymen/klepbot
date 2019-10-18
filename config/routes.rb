@@ -6,4 +6,8 @@ Rails.application.routes.draw do
   root 'dashboard#show'
 
   resource :dashboard, only: :show, controller: :dashboard
+
+  namespace :api do
+    resources :cards, only: :create
+  end
 end
