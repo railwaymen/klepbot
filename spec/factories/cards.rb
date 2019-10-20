@@ -2,11 +2,8 @@
 
 FactoryBot.define do
   factory :card do
-    first_name { 'MyString' }
-    last_name { 'MyString' }
-    metadata { 'MyText' }
-    email { 'MyString' }
-    company_name { 'MyString' }
-    phone_numbers { 'MyString' }
+    image do
+      Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'image.png'), 'image/png')
+    end
   end
 end

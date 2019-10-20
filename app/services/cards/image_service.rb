@@ -36,7 +36,7 @@ module Cards
               .scan(%r{((https?://)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(/\S*)?)})
               .flatten
               .filter { |number| number.present? && number.split('.').size > 1 }
-              .join(', ')
+              .join(',')
 
       @card.websites = match
 
@@ -47,12 +47,13 @@ module Cards
       @card.phone_numbers = metadata
                             .scan(/((\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*)/)
                             .flatten
+                            .map(&:strip)
                             .filter { |n| n.present? && n.length > 5 }
                             .join(',')
     end
 
     def read
-      system(
+      Kernel.system(
         "python #{PYTHON_PATH}/ocr.py " \
         "--image #{@card.server_file_path} " \
         "--preprocess #{PREPROCESS} -id #{@card.id}"

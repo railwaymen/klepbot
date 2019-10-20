@@ -3,13 +3,13 @@
 module Api
   class CardsController < BaseController
     def create
-      @card = Card.new(card_params)
+      card = Card.new(card_params)
 
-      if @card.save
-        Cards::ImageService(@card).call
-      else
-        render json: @card.error.messages
-      end
+      card.save!
+      service = Cards::ImageService.new(card)
+      service.call
+
+      render json: service.card.as_json
     end
 
     private

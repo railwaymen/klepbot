@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resource :dashboard, only: :show, controller: :dashboard
 
-  namespace :api do
+  namespace :api, constraints: { format: 'json' } do
     resources :cards, only: :create
   end
 end
