@@ -14,6 +14,7 @@
 !/tmp/.keep
 config/database.yml
 coverage
+app/python/__pycache__
 # Ignore uploaded files in development.
 /storage/*
 !/storage/.keep
