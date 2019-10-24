@@ -9,5 +9,6 @@ Rails.application.routes.draw do
 
   namespace :api, constraints: { format: 'json' } do
     resources :cards, only: :create
+    devise_for :users, controllers: { sessions: 'api/sessions' }
   end
 end

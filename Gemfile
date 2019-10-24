@@ -15,6 +15,7 @@ gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 4.0'
 gem 'devise'
 gem 'slim'
+gem 'jwt', require: false
 
 group :development, :test do
   gem 'immigrant'
