@@ -2,6 +2,12 @@
 
 module Api
   class CardsController < BaseController
+    def index
+      cards = Card.all
+
+      render json: cards.as_json
+    end
+
     def create
       card = Card.new(card_params)
 
