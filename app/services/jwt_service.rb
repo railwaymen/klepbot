@@ -3,7 +3,7 @@
 require 'jwt'
 
 class JwtService
-  SECRET    = 'abcdef'
+  SECRET    = Rails.application.credentials.jwt.fetch(:secret)
   ALGORITHM = 'HS256'
 
   def self.encode(payload:)
