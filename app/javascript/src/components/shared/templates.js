@@ -6,11 +6,13 @@ export default function EmailTemplates({ onSelect }) {
 
   return (
     <div className="body">
+      <select multiple>
       {templates.map(template => (
-        <div key={template.id} onClick={() => onSelect(template)}>
-          <p>{template.name}</p>
-        </div>
+        <option key={template.id} onClick={() => onSelect(template)}>
+          {template.name}
+        </option>
       ))}
+      </select>
     </div>
   )
 }

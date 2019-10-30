@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resource :dashboard, only: :show, controller: :dashboard
 
   namespace :api, constraints: { format: 'json' } do
-    resources :cards, only: %i[index create]
+    resources :cards, only: %i[index create update]
     resources :email_templates, only: :index
     devise_for :users, controllers: { sessions: 'api/sessions' }
   end

@@ -29,6 +29,23 @@ class ApiService {
     })
   }
 
+  static put = (params) => {
+    return fetch(`${DEFAULT_API_URL}/${params.url}`, {
+      body: params.body,
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
+      }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 400) {
+        return response.json();
+      } else {
+        throw response.json();
+      }
+    })
+  }
+
   static delete = (params) => {
     return fetch(`${DEFAULT_API_URL}/${params.url}`, {
       method: 'DELETE',

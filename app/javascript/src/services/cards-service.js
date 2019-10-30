@@ -9,6 +9,15 @@ class CardsService {
       cards.map(card => new CardModel(card))
     ))
   }
+
+  static async update(id, attributes) {
+    console.log(attributes);
+
+    return ApiService.put({
+      url: `cards/${id}`,
+      body: JSON.stringify(attributes),
+    })
+  }
 }
 
 export default CardsService;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EmailTemplates from '../shared/templates';
+import CardsService from '../../services/cards-service';
 
 class Details extends Component {
   state = {
@@ -21,7 +22,20 @@ class Details extends Component {
   }
 
   onSave = () => {
-    alert();
+    const {
+      props: { card: { id }, updateStatus },
+      state: { template },
+    } = this;
+
+    const params = {
+      card: {
+        body: template
+      }
+    }
+
+    CardsService.update(id, params).then(() => {
+      updateStatus('ready')
+    });
   }
 
   render() {
