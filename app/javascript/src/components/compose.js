@@ -45,14 +45,21 @@ class Compose extends Component {
 
     return (
       <div className="compose-element">
-        <div className="compose-body">
-          <div className="status" style={{ backgroundColor: this.statusColor() }}></div>
-          <span>{firstName} {lastName} - {email}</span>
-        </div>
-        <div className="actions">
-          <div onClick={this.onToggleInformations}>Click me</div>
-          <div onClick={this.onToggleCardDetails}>Click me2</div>
-          <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <div className="compose-header">
+          <div className="compose-body">
+            <div className="info">
+              <div className="status" style={{ backgroundColor: this.statusColor() }}></div>
+              <span><b>{firstName} {lastName}</b> - {email}</span>
+            </div>
+          </div>
+          <div className="actions">
+            <div type="button" class="btn btn-default" aria-label="Left Align" onClick={this.onToggleInformations}>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div type="button" class="btn btn-default" aria-label="Left Align" onClick={this.onToggleCardDetails}>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
         </div>
         <div className="wrapper">
           {displayInformations ? <Details updateStatus={this.updateStatus} card={card} /> : null}

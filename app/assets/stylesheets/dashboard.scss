@@ -7,9 +7,15 @@
   -webkit-box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
+  .compose-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
   .compose-body {
     display: flex;
     align-items: center;
+    flex: auto;
   }
 
   .details {
