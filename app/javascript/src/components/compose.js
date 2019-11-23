@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import Details from './compose/details';
+import PossibleName from './compose/possible-name';
+import CustomName from './compose/custom-name';
+
 import CardDetails from './compose/card-details';
 
 class Compose extends Component {
-  state = {
-    displayInformations: false,
-    displayCardDetails: false,
-    status: this.props.card.status(),
+  constructor(props) {
+    super(props);
+
+    const { card: { status }, card } = this.props;
+
+    this.state = {
+      displayInformations: false,
+      displayCardDetails: false,
+      status: status(),
+      card: card
+    }
   }
 
   onToggleInformations = () => {
@@ -21,12 +31,6 @@ class Compose extends Component {
     }));
   }
 
-  updateStatus = (status) => {
-    this.setState({
-      status
-    })
-  }
-
   statusColor = () => {
     const status = this.state.status;
 
@@ -37,10 +41,23 @@ class Compose extends Component {
     }
   }
 
+  onCardUpdate = (attributes) => {
+    const { card } = this.state;
+
+    card.update(attributes).then(card => {
+      this.setState({
+        card,
+        status: card.status()
+      })
+    })
+  }
+
   render() {
     const {
-      props: { card, card: { firstName, lastName, email } },
-      state: { displayInformations, displayCardDetails },
+      state: {
+        card, card: { firstName, lastName, email, possibleNames },
+        displayInformations, displayCardDetails
+      },
     } = this;
 
     return (
@@ -50,6 +67,14 @@ class Compose extends Component {
             <div className="info">
               <div className="status" style={{ backgroundColor: this.statusColor() }}></div>
               <span><b>{firstName} {lastName}</b> - {email}</span>
+
+              <div className="possible-names">
+                {possibleNames.map(fullName => (
+                  <PossibleName name={fullName} key={fullName} onNameSelect={this.onCardUpdate} />
+                ))}
+
+                <CustomName updateName={this.onCardUpdate} />
+              </div>
             </div>
           </div>
           <div className="actions">
@@ -62,7 +87,7 @@ class Compose extends Component {
           </div>
         </div>
         <div className="wrapper">
-          {displayInformations ? <Details updateStatus={this.updateStatus} card={card} /> : null}
+          {displayInformations ? <Details onCardUpdate={this.onCardUpdate} card={card} /> : null}
           {displayCardDetails ? <CardDetails card={card} /> : null}
         </div>
       </div>

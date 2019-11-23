@@ -11,11 +11,9 @@ class CardsService {
   }
 
   static async update(id, attributes) {
-    console.log(attributes);
-
     return ApiService.put({
       url: `cards/${id}`,
-      body: JSON.stringify(attributes),
+      body: JSON.stringify({ card: attributes }),
     })
   }
 }

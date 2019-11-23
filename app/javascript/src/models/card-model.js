@@ -1,5 +1,7 @@
+import CardsService from "../services/cards-service";
+
 class CardModel {
-  constructor ({ id, first_name, last_name, email, body, metadata, phone_numbers, websites }) {
+  constructor ({ id, first_name, last_name, email, body, metadata, phone_numbers, websites, possible_names }) {
     this.id = id;
     this.firstName = first_name || '';
     this.lastName = last_name || '';
@@ -8,14 +10,27 @@ class CardModel {
     this.metadata = metadata;
     this.phone_numbers = phone_numbers;
     this.websites = websites;
+    this.possibleNames = possible_names || []
   }
 
   toParams = () => {
     return {
-      card: {
-        body: this.body
-      }
+      body: this.body,
+      first_name: this.firstName,
+      last_name: this.lastName,
     }
+  }
+
+  update = (attributes) => {
+    Object.keys(attributes).forEach(attribute => {
+      this[attribute] = attributes[attribute];
+    });
+
+    return CardsService
+      .update(this.id, this.toParams())
+      .then(() => {
+        return this;
+      })
   }
 
   status = () => {

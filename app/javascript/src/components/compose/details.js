@@ -23,19 +23,11 @@ class Details extends Component {
 
   onSave = () => {
     const {
-      props: { card: { id }, updateStatus },
+      props: { onCardUpdate },
       state: { template },
     } = this;
 
-    const params = {
-      card: {
-        body: template
-      }
-    }
-
-    CardsService.update(id, params).then(() => {
-      updateStatus('ready')
-    });
+    onCardUpdate({ body: template })
   }
 
   render() {
