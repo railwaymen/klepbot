@@ -4,7 +4,7 @@ class CardModel {
     this.firstName = first_name || '';
     this.lastName = last_name || '';
     this.email = email;
-    this.body = body;
+    this.body = body || '';
     this.metadata = metadata;
     this.phone_numbers = phone_numbers;
     this.websites = websites;

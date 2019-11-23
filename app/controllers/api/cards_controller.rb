@@ -29,7 +29,7 @@ module Api
     private
 
     def card_params
-      params.require(:card).permit(:image, :body)
+      params.require(:card).permit(:image, :body, :first_name, :last_name)
     end
   end
 end

@@ -53,11 +53,11 @@ class Compose extends Component {
             </div>
           </div>
           <div className="actions">
-            <div type="button" class="btn btn-default" aria-label="Left Align" onClick={this.onToggleInformations}>
-              <i class="fas fa-chevron-down"></i>
+            <div type="button" className="btn btn-default" aria-label="Left Align" onClick={this.onToggleInformations}>
+              <i className="fas fa-chevron-down"></i>
             </div>
-            <div type="button" class="btn btn-default" aria-label="Left Align" onClick={this.onToggleCardDetails}>
-              <i class="fas fa-chevron-down"></i>
+            <div type="button" className="btn btn-default" aria-label="Left Align" onClick={this.onToggleCardDetails}>
+              <i className="fas fa-chevron-down"></i>
             </div>
           </div>
         </div>

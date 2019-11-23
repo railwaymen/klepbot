@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import EmailTemplatesContext from '../src/contexts/email-templates-context';
 
-import Compose from '../src/components/compose';
+import EmailTemplatesContext from '../contexts/email-templates-context';
 
-import CardsService from '../src/services/cards-service';
-import EmailTemplatesService from '../src/services/email-templates-service';
+import Compose from '../components/compose';
+
+import CardsService from '../services/cards-service';
+import EmailTemplatesService from '../services/email-templates-service';
 
 class Dashboard extends Component {
   state = {
@@ -41,9 +41,4 @@ class Dashboard extends Component {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Dashboard />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})
+export default Dashboard;
