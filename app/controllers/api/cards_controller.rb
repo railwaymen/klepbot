@@ -2,6 +2,12 @@
 
 module Api
   class CardsController < BaseController
+    def index
+      cards = Card.order(created_at: :desc)
+
+      render json: cards.as_json
+    end
+
     def create
       card = Card.new(card_params)
 
@@ -12,10 +18,18 @@ module Api
       render json: service.card.as_json
     end
 
+    def update
+      card = Card.find(params[:id])
+
+      card.update!(card_params)
+
+      render json: card.as_json
+    end
+
     private
 
     def card_params
-      params.require(:card).permit(:image)
+      params.require(:card).permit(:image, :body, :first_name, :last_name)
     end
   end
 end

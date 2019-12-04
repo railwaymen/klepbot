@@ -5,8 +5,6 @@ module Cards
     PREPROCESS = 'blur'
     PYTHON_PATH = './app/python'
 
-    attr_reader :card
-
     def initialize(card)
       @card = card
     end
@@ -16,19 +14,32 @@ module Cards
       @card.reload
 
       @card.metadata
-           .gsub('\n', ' ')
            .yield_self(&method(:find_email))
+           .yield_self(&method(:find_names))
            .yield_self(&method(:find_websites))
            .yield_self(&method(:find_phone_numbers))
 
       @card.save!
     end
 
+    private
+
+    def find_names(metadata)
+      service = NamesService.new(metadata, @card.email)
+      first_name, last_name = service.names
+
+      @card.first_name = first_name
+      @card.last_name = last_name
+      @card.possible_names = service.possible_names
+
+      metadata
+    end
+
     def find_email(metadata)
       match = metadata.match(/[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+/)
       @card.email = match
 
-      metadata.gsub(match.to_s, '')
+      metadata
     end
 
     def find_websites(metadata)
