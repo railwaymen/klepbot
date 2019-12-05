@@ -78,10 +78,10 @@ class Compose extends Component {
             </div>
           </div>
           <div className="actions">
-            <div type="button" className="btn btn-default" aria-label="Left Align" onClick={this.onToggleInformations}>
+            <div className="btn btn-light toggle-action" onClick={this.onToggleInformations}>
               <i className="fas fa-chevron-down"></i>
             </div>
-            <div type="button" className="btn btn-default" aria-label="Left Align" onClick={this.onToggleCardDetails}>
+            <div className="btn btn-light toggle-action" onClick={this.onToggleCardDetails}>
               <i className="fas fa-chevron-down"></i>
             </div>
           </div>
