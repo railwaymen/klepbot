@@ -16,6 +16,7 @@ gem 'webpacker', '~> 4.0'
 gem 'devise'
 gem 'slim'
 gem 'jwt', require: false
+gem 'kaminari'
 
 group :development, :test do
   gem 'immigrant'

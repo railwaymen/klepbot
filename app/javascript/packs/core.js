@@ -12,6 +12,7 @@ import Dashboard from '../src/pages/dashboard';
 import EmailTemplates from '../src/pages/email-templates';
 import EmailTemplateNew from '../src/pages/email-template-new';
 import EmailTemplateEdit from '../src/pages/email-template-edit';
+import Contacts from '../src/pages/contacts';
 
 class Core extends Component {
   render() {
@@ -31,6 +32,9 @@ class Core extends Component {
             </Route>
             <Route path="/email-templates/:id/edit">
               <EmailTemplateEdit />
+            </Route>
+            <Route path="/contacts" exact>
+              <Contacts />
             </Route>
           </Switch>
         </div>

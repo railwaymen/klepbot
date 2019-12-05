@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   namespace :api, constraints: { format: 'json' } do
     resources :cards, only: %i[index create update]
+    resources :contacts, except: %i[destroy edit]
     resources :email_templates, only: %i[index show create update]
     devise_for :users, controllers: { sessions: 'api/sessions' }
   end
