@@ -1,6 +1,8 @@
 import React from 'react';
 
-export default function Contact ({ firstName, lastName, event, eventColor, statusColor, status, openModal }) {
+export default function Contact ({ id, firstName, lastName, event, eventColor, statusColor, status, openModal }) {
+  const openModalWithId = () => openModal(id);
+
   return (
     <div className="contact col-md-12">
       <div className="body">
@@ -8,7 +10,7 @@ export default function Contact ({ firstName, lastName, event, eventColor, statu
         <b>{firstName} {lastName}</b>
       </div>
       <div className="actions">
-        <i className="far action fa-eye" onClick={openModal}></i>
+        <i className="far action fa-eye" onClick={openModalWithId}></i>
         <span className="info-pill action" style={{backgroundColor: statusColor()}}>{status}</span>
       </div>
     </div>

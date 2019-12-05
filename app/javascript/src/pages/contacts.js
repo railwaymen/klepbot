@@ -23,13 +23,13 @@ class Contacts extends Component {
   openModal = (contactId) => {
     this.setState({
       openModal: true,
-      contactId,
+      modalContactId: contactId,
     })
   }
 
   closeModal = () => {
     this.setState({
-      contactId: null,
+      modalContactId: null,
       openModal: false,
     })
   }
@@ -39,8 +39,12 @@ class Contacts extends Component {
 
     return (
       <div className="container contacts">
-        { openModal ? <ContactModal contactId={modalContactId} closeModal={this.closeModal} /> : null }
-
+        { openModal ?
+          <ContactModal
+            contactId={modalContactId}
+            closeModal={this.closeModal}
+          /> : null
+        }
         <div className="row">
           <h2>Contacts</h2>
           <div className="col-sm-3 my-1">

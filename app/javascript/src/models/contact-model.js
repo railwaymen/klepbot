@@ -1,5 +1,6 @@
 class ContactModel {
-  constructor({ first_name, last_name, group, category, email, status, event }) {
+  constructor({ id, first_name, last_name, group, category, email, status, event }) {
+    this.id = id;
     this.firstName = first_name;
     this.lastName = last_name;
     this.group = group;

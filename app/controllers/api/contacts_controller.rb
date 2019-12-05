@@ -9,7 +9,9 @@ module Api
     end
 
     def show
-      Contact.find(params[:id])
+      contact = Contact.find(params[:id])
+
+      render json: contact.as_json
     end
 
     def create
