@@ -24,7 +24,7 @@ RSpec.describe Cards::ImageService do
       card.reload
 
       expect(card.email).to eq 'user@example.com'
-      expect(card.websites).to eq 'www.somewebsite.com,otherwebside.com'
+      expect(card.websites).to eq 'example.com,www.somewebsite.com,otherwebside.com'
       expect(card.phone_numbers).to eq '123 331 552,0 953 542 3513'
     end
   end

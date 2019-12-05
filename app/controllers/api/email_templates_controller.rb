@@ -16,7 +16,7 @@ module Api
       if email_template.save
         render json: email_template
       else
-        render json: email_template.errors.messages
+        render json: email_template.errors.messages, status: :unprocessable_entity
       end
     end
 
@@ -26,7 +26,7 @@ module Api
       if email_template.update(email_template_params)
         render json: email_template
       else
-        render json: email_template.errors.messages
+        render json: email_template.errors.messages, status: :unprocessable_entity
       end
     end
 
