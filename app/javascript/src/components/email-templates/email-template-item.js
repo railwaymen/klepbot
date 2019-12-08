@@ -8,7 +8,7 @@ export default function EmailTemplateItem({ id, body, name, onDelete }) {
     <tr>
       <td>
         <Link to={`/email-templates/${id}/edit`}><i className="far fa-edit"></i></Link>
-        <a href="javascript:void(0)" onClick={onTemplateDelete}><i class="far fa-trash-alt"></i></a>
+        <a href="javascript:void(0)" onClick={onTemplateDelete}><i className="far fa-trash-alt"></i></a>
       </td>
       <td>{id}</td>
       <td>{name}</td>

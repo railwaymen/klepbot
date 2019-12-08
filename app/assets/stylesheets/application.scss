@@ -16,3 +16,70 @@
 
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import "bootstrap/dist/css/bootstrap";
+
+@-webkit-keyframes toast-popup {
+  from {
+    margin-top: -55px;
+    opacity: 0;
+  }
+  to {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes toast-hide {
+  from {
+    margin-top: 0;
+    opacity: 1;
+  }
+  to {
+    margin-top: -55px;
+    opacity: 0;
+  }
+}
+
+.app-toasts {
+  z-index: 1500;
+  left: 5%;
+  top: 5%;
+  position: fixed;
+
+  .app-toasts-body {
+    display: block;
+  }
+
+  .app-toast {
+    &.success {
+      color: #21A362;
+    }
+    &.error {
+      color: #FA6057;
+    }
+
+    animation: toast-popup 1s ease forwards,
+               toast-hide 1s ease 2s forwards;
+
+    animation-duration: 0.6s;
+    border-bottom-left-radius: 12px;
+
+    .icon {
+      font-size: 24px;
+    }
+    .text {
+      margin-left: 14px;
+      &.description {
+        font-size: 10px;
+      }
+    }
+
+    padding: 0px 60px 0px 12px;
+    margin-bottom: 24px;
+    align-items: center;
+    background-color: #fdfdfd;
+    -webkit-box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
+    display: flex;
+  }
+}

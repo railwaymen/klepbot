@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import NotificationsContext from '../../contexts/notifications-context';
 
 class EmailTemplateForm extends Component {
+  static contextType = NotificationsContext;
+
   constructor(props) {
     super(props);
 
@@ -30,7 +33,11 @@ class EmailTemplateForm extends Component {
           body: template.body
         });
 
-        alert('Saved!');
+        this.context.pushNotification({
+          header: 'Success!',
+          type: 'success',
+          body: 'Email template have been created',
+        })
       })
       .catch(e => {
         alert('Can\'t save your changes')

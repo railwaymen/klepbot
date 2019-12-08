@@ -1,41 +1,126 @@
 import React, { Component } from 'react';
+
 import ContactsService from '../../services/contacts-service';
 import ContactModel from '../../models/contact-model';
+import NotificationsContext from '../../contexts/notifications-context';
+
 import ContactEditForm from './contact-edit-form';
-import EmailTemplates from '../shared/templates';
+import ComposeEmail from './compose-email';
+import ContactAction from './contact-action';
+import ContactActionModel from '../../models/contact-action-model';
 
 class ContactModal extends Component {
+  static contextType = NotificationsContext;
+
   state = {
-    contact: new ContactModel({})
+    contact: new ContactModel({}),
+    contactActions: [],
+    statuses: [],
+    events: [],
   }
 
   componentDidMount() {
     const { contactId } = this.props;
 
     ContactsService.find(contactId).then(contact => {
-      this.setState({ contact })
+      this.setState({contact })
+    });
+
+    ContactsService.actions(contactId).then(contactActions => {
+      this.setState({ contactActions })
+    });
+
+    ContactsService.statuses().then(statuses => {
+      this.setState({ statuses })
+    })
+
+    ContactsService.events().then(events => {
+      this.setState({ events })
     })
   }
 
-  onContactSave = (params) => {
-    ContactsService.update(id, params).then(contact => {
-      this.setState({ contact });
+  displayIncorrectActionAlert = () => {
+    this.context.pushNotification({
+      header: 'Error!',
+      type: 'error',
+      body: 'There was an error with data flow during edit',
+    })
+  }
+
+  onContactEventChange = ({ value }) => {
+    const { events } = this.state;
+    let { contact } = this.state;
+
+    const selectedEvent = events.find(event => event.id === parseInt(value));
+
+    if (!selectedEvent) return this.displayIncorrectActionAlert();
+
+    contact.event = selectedEvent;
+    this.setState({ contact });
+  }
+
+  onContactStatusChange = ({ value }) => {
+    const { statuses } = this.state;
+    let { contact } = this.state;
+
+    const selectedStatus = statuses.find(status => status.id === parseInt(value));
+
+    if (!selectedStatus) return this.displayIncorrectActionAlert();
+
+    contact.status = selectedStatus;
+    this.setState({ contact });
+  }
+
+  onContactSave = () => {
+    const {
+      state: {
+        contact, contact: { id }
+      },
+      context: { pushNotification }
+    } = this;
+
+    ContactsService.update(id, contact.toParams()).then(updatedContact => {
+      const { contactActions } = this.state;
+      const contactAction = new ContactActionModel({ ...contact.original, id: new Date() });
+
+      this.setState({
+        contact: updatedContact,
+        contactActions: [contactAction].concat(contactActions),
+      }, () => {
+        pushNotification({
+          header: 'Success!',
+          type: 'success',
+          body: 'Your contact have been updated',
+        })
+      });
+    }).catch(e => {
+      pushNotification({
+        header: 'Error!',
+        type: 'error',
+        body: e.message,
+      })
     });
   }
 
   onChange = ({ value, name }) => {
-    this.setState({
-      [name]: value
-    })
+    let { contact } = this.state;
+
+    contact[name] = value;
+    this.setState({ contact });
   }
 
   render() {
     const {
       state: {
         contact: {
-          firstName, lastName, status, statusColor, event, eventColor,
+          firstName, lastName,
+          event: { name: eventName, color: eventColor },
+          status: { name: statusName, color: statusColor },
         },
+        statuses,
+        events,
         contact,
+        contactActions,
       },
       props: { closeModal },
     } = this;
@@ -43,28 +128,45 @@ class ContactModal extends Component {
     return (
       <div className="modal">
         <div className="container">
-          <i className="fas fa-times" onClick={closeModal}></i>
           <div className="row">
-            <div>
+            <div className="col">
               <h1>{firstName} {lastName}</h1>
             </div>
-            <div>
-              <div style={{backgroundColor: eventColor()}}>{event}</div>
+            <div className="modal-info-pills">
+              <div className="info-pill" style={{backgroundColor: eventColor}}>{eventName}</div>
+              <div className="info-pill" style={{backgroundColor: statusColor}}>{statusName}</div>
             </div>
-            <div>
-              <div style={{backgroundColor: statusColor()}}>{status}</div>
+            <div className="modal-info-close">
+              <i className="fas fa-times" onClick={closeModal}></i>
             </div>
           </div>
           <div className="row">
             <ContactEditForm
               {...contact}
               onContactChange={this.onChange}
-              onSave={this.onContactSave}
+              onContactEventChange={this.onContactEventChange}
+              onContactStatusChange={this.onContactStatusChange}
+              saveChanges={this.onContactSave}
+              statuses={statuses}
+              events={events}
             />
           </div>
           <div className="row">
-            <h4>Prepare email</h4>
-            <EmailTemplates onSelect={alert} />
+            <div className="col-md-12">
+              <h4>Prepare email</h4>
+              <ComposeEmail
+                {...contact}
+              />
+            </div>
+          </div>
+          <div className="history">
+            <h5>History</h5>
+            {contactActions.map(action => (
+              <ContactAction
+                {...action}
+                key={action.id}
+              />
+            ))}
           </div>
         </div>
       </div>

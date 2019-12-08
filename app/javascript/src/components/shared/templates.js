@@ -6,7 +6,7 @@ export default function EmailTemplates({ onSelect }) {
 
   return (
     <div className="body form-group">
-      <select multiple class="form-control" >
+      <select multiple className="form-control" >
       {templates.map(template => (
         <option key={template.id} onClick={() => onSelect(template)}>
           {template.name}

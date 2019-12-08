@@ -3,15 +3,11 @@
 module Api
   class ContactsController < BaseController
     def index
-      contacts = Contact.order(created_at: :desc).page(params[:page] || 1)
-
-      render json: contacts.as_json
+      @contacts = Contact.order(created_at: :desc).includes(:event, :status).page(params[:page] || 1)
     end
 
     def show
-      contact = Contact.find(params[:id])
-
-      render json: contact.as_json
+      @contact = Contact.find(params[:id])
     end
 
     def create
@@ -25,19 +21,25 @@ module Api
     end
 
     def update
-      contact = Contact.find(params[:id])
+      @contact = Contact.find(params[:id])
 
-      if contact.update(contact_params)
-        render json: contact.as_json
-      else
-        render json: contact.errors.messages.as_json, status: :unprocessable_entity
+      if !@contact.update_with_action(contact_params)
+        render json: @contact.errors.messages.as_json, status: :unprocessable_entity
       end
     end
 
     private
 
     def contact_params
-      params.require(:contact).permit(:first_name, :last_name, :group, :category, :email)
+      params.require(:contact).permit(
+        :first_name,
+        :last_name,
+        :group,
+        :category,
+        :email,
+        :contact_status_id,
+        :contact_event_id
+      )
     end
   end
 end

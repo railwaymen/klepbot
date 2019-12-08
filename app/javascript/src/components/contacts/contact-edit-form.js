@@ -5,36 +5,113 @@ class ContactEditForm extends Component {
     const { value, name } = e.target;
     const { onContactChange } = this.props;
 
-    this.setState({
-      [name]: value
-    })
+    onContactChange({ value, name });
+  }
+
+  onSubmit = () => {
+    this.props.saveChanges();
+  }
+
+  onEventChange = (e) => {
+    const { value, name } = e.target;
+    const { onContactEventChange } = this.props;
+
+    onContactEventChange({ value, name });
+  }
+
+  onStatusChange = (e) => {
+    const { value, name } = e.target;
+    const { onContactStatusChange } = this.props;
+
+    onContactStatusChange({ value, name });
   }
 
   render() {
-    const { id,
+    const {
       firstName,
       lastName,
       group,
       category,
       email,
-      status,
-      event,
+      statuses,
+      events,
+      status: { id: statusId },
+      event: { id: eventId },
     } = this.props;
 
     return (
-      <div className="col-md-12">
+      <form className="col-md-12">
         <h5>Informations</h5>
-        <p><b>ID</b> {id}</p>
-        <p><b>First name</b> {firstName}</p>
-        <p><b>Last name</b> {lastName}</p>
-        <p><b>Group</b> {group}</p>
-        <p><b>Category</b> {category}</p>
-        <p><b>Email</b> {email}</p>
-        <p><b>Status</b> {status}</p>
-        <p><b>Event</b> {event}</p>
-        <h5>Edit</h5>
-        <h5>History</h5>
-      </div>
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="First name"
+            aria-label="First name"
+            value={firstName}
+            name="firstName"
+            onChange={this.onChange}
+          />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Last name"
+            aria-label="Last name"
+            value={lastName}
+            name="lastName"
+            onChange={this.onChange}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="basic-addon1">@</span>
+          </div>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="email"
+            aria-label="email"
+            value={email}
+            name="email"
+            onChange={this.onChange}
+          />
+        </div>
+        <div className="input-group mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Group"
+            aria-label="Group"
+            value={group}
+            name="group"
+            onChange={this.onChange}
+          />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Category"
+            aria-label="Category"
+            value={category}
+            name="category"
+            onChange={this.onChange}
+          />
+          <select name="contact_event_id" onChange={this.onEventChange} value={eventId}>
+            {events.map(event => (
+              <option key={event.id} value={event.id}>{event.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="input-group mb-3">
+          <select name="contact_status_id" onChange={this.onStatusChange} value={statusId}>
+            {statuses.map(status => (
+              <option key={status.id} value={status.id}>{status.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="input-group mb-3">
+          <button type="button" className="btn btn-light" onClick={this.onSubmit}>Save</button>
+        </div>
+      </form>
     )
   }
 }
