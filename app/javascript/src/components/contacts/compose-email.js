@@ -17,14 +17,19 @@ class ComposeEmail extends Component {
     })
   }
 
-  onSubmit = () => {
-    const { pushNotification } = this.context;
+  onChange = (e) => {
+    const { target: { value } } = e;
 
-    pushNotification({
-      header: 'Success!',
-      type: 'success',
-      body: 'Your contact have been updated',
-    })
+    this.setState({ template: value });
+  }
+
+  onSubmit = () => {
+    const {
+      props: { composeEmail },
+      state: { template },
+    } = this;
+
+    composeEmail(template);
   }
 
   render() {
@@ -34,10 +39,10 @@ class ComposeEmail extends Component {
     } = this;
 
     return (
-      <div className="details">
+      <div className="details col">
         <div className="email-body">
           <p>{email}</p>
-          <textarea name="template" className="form-control" value={template} onChange={this.onChange} />
+          <textarea rows="12" name="template" className="form-control" value={template} onChange={this.onChange} />
         </div>
         <EmailTemplates onSelect={this.onSelectTemplate} />
         <button type="button" className="btn btn-light" onClick={this.onSubmit}>Compose</button>

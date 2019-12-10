@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_06_211116) do
+ActiveRecord::Schema.define(version: 2019_12_09_100329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 2019_12_06_211116) do
     t.bigint "contact_event_id", null: false
     t.bigint "user_id", null: false
     t.bigint "touched_id"
+    t.text "email_body"
+    t.string "action_type", default: "update"
     t.index ["contact_event_id"], name: "index_contact_actions_on_contact_event_id"
     t.index ["contact_id"], name: "index_contact_actions_on_contact_id"
     t.index ["contact_status_id"], name: "index_contact_actions_on_contact_status_id"

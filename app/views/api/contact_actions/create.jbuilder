@@ -1,5 +1,5 @@
 json.extract!(
-  @contact,
+  @contact_action,
   :id,
   :first_name,
   :last_name,
@@ -7,14 +7,16 @@ json.extract!(
   :category,
   :email,
   :contact_status_id,
-  :contact_event_id
+  :contact_event_id,
+  :action_type,
+  :email_body
 )
 
-json.updated_at @contact.updated_at.strftime('%H:%M %d-%m-%Y')
+json.created_at @contact_action.created_at.strftime('%H:%M %d-%m-%Y')
 
 json.event do
   json.extract!(
-    @contact.event,
+    @contact_action.event,
     :id,
     :color,
     :name
@@ -23,7 +25,7 @@ end
 
 json.status do
   json.extract!(
-    @contact.status,
+    @contact_action.status,
     :id,
     :color,
     :name

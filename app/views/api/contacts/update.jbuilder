@@ -10,6 +10,8 @@ json.extract!(
   :contact_event_id
 )
 
+json.updated_at @contact.updated_at.strftime('%H:%M %d-%m-%Y')
+
 json.event do
   json.extract!(
     @contact.event,

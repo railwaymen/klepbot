@@ -45,9 +45,27 @@ class ContactsService {
     ))
   }
 
+  static async createEmailAction(contactId, template) {
+    return ApiService.post({
+      url: `contacts/${contactId}/actions`,
+      body: JSON.stringify({ contact_action: { email_body: template, action_type: 'email' } }),
+    }).then(action => (
+      new ContactActionModel(action)
+    ))
+  }
+
   static async update(id, params) {
     return ApiService.put({
       url: `contacts/${id}`,
+      body: JSON.stringify({ contact: params }),
+    }).then(contact => (
+      new ContactModel(contact)
+    ))
+  }
+
+  static async create(params) {
+    return ApiService.post({
+      url: `contacts`,
       body: JSON.stringify({ contact: params }),
     }).then(contact => (
       new ContactModel(contact)

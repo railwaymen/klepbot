@@ -6,11 +6,12 @@ class Contact < ApplicationRecord
   belongs_to :touched, class_name: 'User', foreign_key: :touched_id
 
   def update_with_action(params)
+    update(params)
+
     action_attributes = attributes
     ['id', 'created_at', 'updated_at'].map(&action_attributes.method(:delete))
+    action_attributes['action_type'] = :updated
 
     actions.create!(action_attributes)
-
-    update(params)
   end
 end

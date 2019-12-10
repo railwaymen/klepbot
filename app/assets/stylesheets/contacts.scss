@@ -42,6 +42,16 @@
     border-radius: 6px;
   }
 
+  .big-info-pill {
+    font-size: 13px;
+    color: #efefef;
+    padding: 6px 25px;
+  }
+
+  .box {
+    margin: 24px 0;
+  }
+
   .modal {
     animation-name: modal-toggle;
     animation-duration: 0.3s;
@@ -58,6 +68,14 @@
     .modal-info-pills {
       align-self: flex-end;
       margin: 0px 10px;
+    }
+
+    .history-contact-action {
+      flex-flow: column;
+
+      .action-container {
+        display: flex;
+      }
     }
 
     .modal-info-close {

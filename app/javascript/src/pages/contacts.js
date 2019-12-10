@@ -35,10 +35,29 @@ class Contacts extends Component {
   }
 
   closeModal = () => {
-    this.setState({
-      modalContactId: null,
-      openModal: false,
-    })
+    const { modalContactId, contacts } = this.state;
+
+    ContactsService.find(modalContactId).then(updatedContact => {
+      const updatedContacts = contacts.map(contact => {
+        if (updatedContact.id === contact.id) return updatedContact;
+        return contact
+      });
+
+      this.setState({
+        modalContactId: null,
+        openModal: false,
+        contacts: updatedContacts
+      })
+    });
+  }
+
+  search = (e) => {
+    const { value } = e.target;
+    const { page } = this.state;
+
+    ContactsService.search({ query: value, page }).then(contacts => {
+      this.setState({ contacts })
+    });
   }
 
   render() {
@@ -56,15 +75,17 @@ class Contacts extends Component {
           <div className="row">
             <h2>Contacts</h2>
             <div className="col-sm-3 my-1">
-              <input type="text" className="form-control" onChange={console.log} placeholder="Type to search" />
+              <input type="text" className="form-control" onChange={this.search} placeholder="Type to search" />
             </div>
-            {contacts.map(contact => (
-              <Contact
-                {...contact}
-                key={contact.id}
-                openModal={this.openModal}
-              />
-            ))}
+            <div className="box row">
+              {contacts.map(contact => (
+                <Contact
+                  {...contact}
+                  key={contact.id}
+                  openModal={this.openModal}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </EmailTemplatesContext.Provider>

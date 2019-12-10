@@ -41,7 +41,6 @@ class ContactEditForm extends Component {
 
     return (
       <form className="col-md-12">
-        <h5>Informations</h5>
         <div className="input-group mb-3">
           <input
             type="text"
@@ -95,14 +94,14 @@ class ContactEditForm extends Component {
             name="category"
             onChange={this.onChange}
           />
-          <select name="contact_event_id" onChange={this.onEventChange} value={eventId}>
+          <select name="contact_event_id" className="form-control" onChange={this.onEventChange} value={eventId}>
             {events.map(event => (
               <option key={event.id} value={event.id}>{event.name}</option>
             ))}
           </select>
         </div>
         <div className="input-group mb-3">
-          <select name="contact_status_id" onChange={this.onStatusChange} value={statusId}>
+          <select name="contact_status_id" className="form-control" onChange={this.onStatusChange} value={statusId}>
             {statuses.map(status => (
               <option key={status.id} value={status.id}>{status.name}</option>
             ))}

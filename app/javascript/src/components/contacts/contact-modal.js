@@ -7,7 +7,6 @@ import NotificationsContext from '../../contexts/notifications-context';
 import ContactEditForm from './contact-edit-form';
 import ComposeEmail from './compose-email';
 import ContactAction from './contact-action';
-import ContactActionModel from '../../models/contact-action-model';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -81,7 +80,7 @@ class ContactModal extends Component {
 
     ContactsService.update(id, contact.toParams()).then(updatedContact => {
       const { contactActions } = this.state;
-      const contactAction = new ContactActionModel({ ...contact.original, id: new Date() });
+      const contactAction = updatedContact.toAction();
 
       this.setState({
         contact: updatedContact,
@@ -109,6 +108,33 @@ class ContactModal extends Component {
     this.setState({ contact });
   }
 
+  onEmailSubmit = (template) => {
+    const {
+      state: {
+        contactActions, contact
+      },
+      context: { pushNotification }
+    } = this;
+
+    ContactsService.createEmailAction(contact.id, template).then(contactAction => {
+      this.setState({
+        contactActions: [contactAction].concat(contactActions),
+      })
+    }).then(() => {
+      pushNotification({
+        header: 'Success!',
+        type: 'success',
+        body: 'Your email template have been saved',
+      });
+    }).catch(e => {
+      pushNotification({
+        header: 'Error!',
+        type: 'error',
+        body: `There was an error with processing request '${e.message}'`,
+      });
+    });
+  }
+
   render() {
     const {
       state: {
@@ -128,45 +154,57 @@ class ContactModal extends Component {
     return (
       <div className="modal">
         <div className="container">
-          <div className="row">
+          <div className="row box">
             <div className="col">
               <h1>{firstName} {lastName}</h1>
             </div>
             <div className="modal-info-pills">
-              <div className="info-pill" style={{backgroundColor: eventColor}}>{eventName}</div>
-              <div className="info-pill" style={{backgroundColor: statusColor}}>{statusName}</div>
+              <div className="big-info-pill" style={{backgroundColor: eventColor}}>{eventName}</div>
+              <div className="big-info-pill" style={{backgroundColor: statusColor}}>{statusName}</div>
             </div>
             <div className="modal-info-close">
               <i className="fas fa-times" onClick={closeModal}></i>
             </div>
           </div>
-          <div className="row">
-            <ContactEditForm
-              {...contact}
-              onContactChange={this.onChange}
-              onContactEventChange={this.onContactEventChange}
-              onContactStatusChange={this.onContactStatusChange}
-              saveChanges={this.onContactSave}
-              statuses={statuses}
-              events={events}
-            />
-          </div>
-          <div className="row">
+          <div className="row box">
             <div className="col-md-12">
-              <h4>Prepare email</h4>
-              <ComposeEmail
-                {...contact}
-              />
+              <h4>Informations</h4>
+              <div>
+                <ContactEditForm
+                  {...contact}
+                  onContactChange={this.onChange}
+                  onContactEventChange={this.onContactEventChange}
+                  onContactStatusChange={this.onContactStatusChange}
+                  saveChanges={this.onContactSave}
+                  statuses={statuses}
+                  events={events}
+                />
+              </div>
             </div>
           </div>
-          <div className="history">
-            <h5>History</h5>
-            {contactActions.map(action => (
-              <ContactAction
-                {...action}
-                key={action.id}
-              />
-            ))}
+          <div className="row box">
+            <div className="col-md-12">
+              <h4>Prepare email</h4>
+              <div>
+                <ComposeEmail
+                  {...contact}
+                  composeEmail={this.onEmailSubmit}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="history row box">
+            <div className="col-md-12">
+              <h4>History</h4>
+              <div>
+                {contactActions.map(action => (
+                  <ContactAction
+                    {...action}
+                    key={action.id}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

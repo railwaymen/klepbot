@@ -8,8 +8,12 @@ json.array! @contact_actions do |contact_action|
     :category,
     :email,
     :contact_status_id,
-    :contact_event_id
+    :contact_event_id,
+    :action_type,
+    :email_body
   )
+
+  json.created_at contact_action.created_at.strftime('%H:%M %d-%m-%Y')
 
   json.event do
     json.extract!(
