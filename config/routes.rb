@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :cards, only: %i[index create update]
     resources :contact_events, only: :index
     resources :contact_statuses, only: :index
+    resources :stats, only: :index
     resources :contacts, except: %i[destroy edit] do
       resources :actions, controller: :contact_actions, only: %i[index create]
     end

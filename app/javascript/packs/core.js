@@ -11,11 +11,15 @@ import Navbar from '../src/components/shared/navbar';
 import Notifications from '../src/components/shared/notifications';
 
 import Dashboard from '../src/pages/dashboard';
+
 import EmailTemplates from '../src/pages/email-templates';
 import EmailTemplateNew from '../src/pages/email-template-new';
 import EmailTemplateEdit from '../src/pages/email-template-edit';
+
 import Contacts from '../src/pages/contacts';
 import NewContact from '../src/pages/new-contact';
+
+import Stats from '../src/pages/stats';
 
 class Core extends Component {
   state = {
@@ -76,6 +80,9 @@ class Core extends Component {
               </Route>
               <Route path="/contacts/new" exact>
                 <NewContact />
+              </Route>
+              <Route path="/stats" exact>
+                <Stats />
               </Route>
             </Switch>
           </div>
