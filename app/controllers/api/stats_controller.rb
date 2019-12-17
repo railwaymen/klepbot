@@ -2,21 +2,12 @@
 
 module Api
   class StatsController < BaseController
-    def index
-      query = StatsQuery.new(params[:period] || 'month')
-
-      events = ContactEvent.all.map do |e|
-        { :"#{e.name.downcase.gsub(' ', '_')}" => query.events(e.name) }
-      end.reduce({}, :merge)
-
-      statuses = ContactStatus.all.map do |e|
-        { :"#{e.name.downcase.gsub(' ', '_')}" => query.statuses(e.name) }
-      end.reduce({}, :merge)
-
-      render json: {
-        events: events,
-        statuses: statuses
-      }
+    def period_users_gain
+      render json: PeriodUserContactsGainQuery.new(
+        params[:period],
+        from: params[:from],
+        to: params[:to]
+      ).call.as_json
     end
   end
 end

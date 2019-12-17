@@ -15,12 +15,6 @@ class StatsQuery
     @period = period
   end
 
-  def self.events
-    ContactEvent.all.map do |e|
-      { :"#{e.name.downcase.gsub(' ', '_')}" => (:name.to_proc >> query.method(:events)).(e) }
-    end.reduce({}, :merge)
-  end
-
   def execute(raw)
     ActiveRecord::Base
       .connection
@@ -28,7 +22,7 @@ class StatsQuery
       .map(&:symbolize_keys.to_proc >> StatModel.method(:new))
   end
 
-  def events_raw(event_name)
+  def events(event_name)
     execute("
       SELECT
         contact_events.name,
@@ -42,7 +36,7 @@ class StatsQuery
     ")
   end
 
-  def contacts_raw
+  def contacts
     execute("
       SELECT
         COUNT(*),
@@ -54,7 +48,7 @@ class StatsQuery
     ")
   end
 
-  def statuses_raw(status_name)
+  def statuses(status_name)
     execute("
       SELECT
         contact_statuses.name,

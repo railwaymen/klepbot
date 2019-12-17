@@ -2,4 +2,7 @@
 
 class User < ApplicationRecord
   devise :database_authenticatable, :validatable
+
+  has_many :contacts
+  has_many :touched_contacts, class_name: 'Contact', foreign_key: :touched_id
 end
