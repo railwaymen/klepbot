@@ -6,6 +6,7 @@ import EmailTemplatesContext from '../contexts/email-templates-context';
 import Contact from '../components/contacts/contact';
 import ContactModal from '../components/contacts/contact-modal';
 import EmailTemplatesService from '../services/email-templates-service';
+import SearchInput from '../components/shared/search-input';
 
 class Contacts extends Component {
   state = {
@@ -51,8 +52,7 @@ class Contacts extends Component {
     });
   }
 
-  search = (e) => {
-    const { value } = e.target;
+  search = (value) => {
     const { page } = this.state;
 
     ContactsService.search({ query: value, page }).then(contacts => {
@@ -73,9 +73,11 @@ class Contacts extends Component {
             /> : null
           }
           <div className="row">
-            <h2>Contacts</h2>
-            <div className="col-sm-3 my-1">
-              <input type="text" className="form-control" onChange={this.search} placeholder="Type to search" />
+            <div className="col-12">
+              <h2>Contacts</h2>
+            </div>
+            <div className="col-12">
+              <SearchInput onStopTyping={this.search} />
             </div>
             <div className="box row">
               {contacts.map(contact => (

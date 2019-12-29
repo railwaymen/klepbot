@@ -6,6 +6,7 @@ import Compose from '../components/compose';
 
 import CardsService from '../services/cards-service';
 import EmailTemplatesService from '../services/email-templates-service';
+import SearchInput from '../components/shared/search-input';
 
 class Dashboard extends Component {
   state = {
@@ -49,9 +50,7 @@ class Dashboard extends Component {
       <EmailTemplatesContext.Provider value={{templates}}>
         <div className="container">
           <h1>Cards Dashboard</h1>
-          <div className="col-sm-3 my-1">
-            <input type="text" className="form-control" onChange={this.onCardsFilter} placeholder="Type to search" />
-          </div>
+          <SearchInput />
           <div className="compose-containers">
             { filteredCards.length <= 0 ?
               <h2>No results found</h2>

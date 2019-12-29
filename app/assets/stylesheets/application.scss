@@ -15,7 +15,12 @@
  */
 
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script|Lato&display=swap');
 @import "bootstrap/dist/css/bootstrap";
+
+body {
+  font-family: 'Lato', sans-serif;
+}
 
 @-webkit-keyframes toast-popup {
   from {
@@ -81,5 +86,114 @@
     -moz-box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
     display: flex;
+  }
+}
+
+$navTextColor: #FF6E8B;
+
+@-webkit-keyframes navbar-dropdown-show {
+  from {
+    opacity: 0;
+    margin-top: -15px;
+    padding: 0 12px;
+  }
+  to {
+    padding: 12px 12px;
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+#app-navbar {
+  background-image: linear-gradient(to right, #6756A6, #BE83FD);
+  margin-bottom: 24px;
+
+  .navbar-brand {
+    color: #efefef;
+    font-size: 24px;
+    font-family: 'Dancing Script', cursive;
+  }
+
+  .nav-item {
+    margin: 0;
+    .dropdown-menu {
+      background-color: #fafafa;
+      padding: 12px;
+      border: 0;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-bottom-left-radius: 13px;
+      border-bottom-right-radius: 13px;
+      animation-name: navbar-dropdown-show;
+      animation-play-state: paused;
+      animation-duration: 0.4s;
+      min-width: 330px;
+
+      &:after {
+        position: absolute;
+        top: -5px;
+        left: 10%;
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+
+        border-bottom: 5px solid #fafafa;
+      }
+
+      .fas {
+        color: #E3624B;
+      }
+
+      li > a {
+        color: #0c0c0c;
+        transition-duration: 0.3s;
+        span {
+          margin-left: 14px;
+          font-weight: 200;
+        }
+        &:hover {
+          color: $navTextColor;
+        }
+      }
+    }
+
+    &:hover, a:hover {
+      .dropdown-menu {
+        display: block;
+        animation-play-state: running;
+      }
+    }
+  }
+
+  :not(.dropdown-menu) > li.nav-item > a {
+    &.active {
+      color: $navTextColor;
+    }
+
+    padding: 12px;
+    color: #fdfdfd;
+    font-weight: 200;
+    transition-duration: 0.3s;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      width: 0;
+      height: 2px;
+      background-color: white;
+      transition-duration: 0.3s;
+    }
+    &:hover::after {
+      background-color: $navTextColor;
+      left: 0;
+      width: 100%;
+    }
+    &:hover {
+      color: $navTextColor;
+    }
   }
 }

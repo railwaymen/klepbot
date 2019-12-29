@@ -13,6 +13,14 @@ class ContactsService {
     ))
   }
 
+  static async search({ query, page }) {
+    return ApiService.get({
+      url: `contacts?page=${page}&query=${query}`
+    }).then(contacts => (
+      contacts.map(contact => new ContactModel(contact))
+    ))
+  }
+
   static async statuses() {
     return ApiService.get({
       url: `contact_statuses`

@@ -46,13 +46,15 @@
   }
 
   .big-info-pill {
-    font-size: 13px;
-    color: #efefef;
+    font-size: 15px;
     padding: 6px 25px;
+    margin: 0 4px;
+    border-bottom: 1px solid transparent;
   }
 
   .box {
     margin: 24px 0;
+    flex: auto;
   }
 
   .modal {
@@ -69,8 +71,10 @@
     overflow-y: scroll;
 
     .modal-info-pills {
-      align-self: flex-end;
+      flex: auto;
       margin: 0px 10px;
+      display: inline-flex;
+      align-items: baseline;
     }
 
     .history-contact-action {

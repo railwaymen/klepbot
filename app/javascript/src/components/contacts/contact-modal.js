@@ -159,8 +159,8 @@ class ContactModal extends Component {
               <h1>{firstName} {lastName}</h1>
             </div>
             <div className="modal-info-pills">
-              <div className="big-info-pill" style={{backgroundColor: eventColor}}>{eventName}</div>
-              <div className="big-info-pill" style={{backgroundColor: statusColor}}>{statusName}</div>
+              <div className="big-info-pill" style={{borderColor: eventColor, color: eventColor}}>{eventName}</div>
+              <div className="big-info-pill" style={{borderColor: statusColor, color: statusColor}}>{statusName}</div>
             </div>
             <div className="modal-info-close">
               <i className="fas fa-times" onClick={closeModal}></i>
