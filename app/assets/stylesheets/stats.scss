@@ -6,3 +6,91 @@
   box-shadow: 0px 0px 23px -11px rgba(0,0,0,0.75);
   text-align: center;
 }
+
+.legend {
+  display: flex;
+  flex-flow: wrap;
+
+  .legend-row {
+    flex: none;
+    display: inline-flex;
+    margin: 6px;
+  }
+  .color-box {
+    margin: 0 6px;
+    display: block;
+  }
+}
+
+@-webkit-keyframes stats-display {
+  from { left: 25%; width: 0 }
+  to { left: 0; width: 100%; }
+}
+
+$tabColor: #FF6E8B;
+$tabHeight: 3px;
+
+.stats {
+  .tabs {
+    display: flex;
+
+    .tab {
+      &.selected {
+        color: $tabColor;
+        &:hover::after {
+          background-color: $tabColor;
+          height: $tabHeight;
+        }
+        &::after {
+          display: block;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: $tabHeight;
+          content: "";
+          background-color: $tabColor;
+        }
+      }
+      color: #4f4f4f;
+      position: relative;
+      padding: 12px 24px;
+      margin: 12px 12px;
+      color: #c0c0c0;
+      cursor: pointer;
+      &:hover {
+        color: $tabColor;
+      }
+      &:before {
+        display: block;
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: $tabHeight;
+        content: "";
+        background-color: $tabColor;
+      }
+      &:hover::before {
+        background-color: $tabColor;
+        height: $tabHeight;
+        width: 100%;
+        animation-name: stats-display;
+        animation-duration: 0.3s;
+      }
+      &::after {
+        display: block;
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: $tabHeight;
+        content: "";
+        background-color: #c0c0c0;
+      }
+    }
+  }
+}
+

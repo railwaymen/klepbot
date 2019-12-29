@@ -8,7 +8,7 @@ export default function Contact ({ id, firstName, lastName, event, status, openM
   return (
     <div className="contact col-md-12">
       <div className="body">
-        <span className="info-pill" style={{backgroundColor: eventColor}}>{eventName}</span>
+        <span className="info-pill" style={{color: eventColor, borderColor: eventColor}}>{eventName}</span>
         <b>{firstName} {lastName}</b>
       </div>
       <div className="actions">

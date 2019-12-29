@@ -39,7 +39,10 @@
     font-size: 9px;
     color: #efefef;
     padding: 6px 25px;
-    border-radius: 6px;
+    border-radius: 16px;
+    background-color: transparent;
+    border: 2px solid transparent;
+    transition-duration: 0.3s;
   }
 
   .big-info-pill {

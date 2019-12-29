@@ -10,8 +10,19 @@
 ActiveRecord::Base.transaction do
   user = User.create!(
     email: 'user@example.com',
-    password: 'password'
+    password: 'password',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name
   )
+
+  10.times do |i|
+    User.create!(
+      email: "user+#{i}@example.com",
+      password: 'password',
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name
+    )
+  end
 
   statuses = ContactStatus.create!([
     { color: '#0c0c0c', name: 'First contact' },
@@ -27,15 +38,22 @@ ActiveRecord::Base.transaction do
     { color: '#3874E8', name: 'Clutch' }
   ])
 
-  100.times do |i|
+  1500.times do |i|
+    first_name = Faker::Name.first_name
+    last_name = Faker::Name.last_name
+    user_id = User.pluck(:id).sample
+    timestamp = Time.current - rand(12).months
+
     Contact.create!(
-      first_name: "First #{i}",
-      last_name: "Last #{i}",
-      user_id: user.id,
-      touched_id: user.id,
+      first_name: first_name,
+      last_name: last_name,
+      user_id: user_id,
+      touched_id: user_id,
       contact_status_id: statuses.sample.id,
       contact_event_id: events.sample.id,
-      email: "first#{i}.last#{i}@example.com"
+      email: "#{first_name}.#{last_name}+#{i}@example.com",
+      created_at: timestamp,
+      updated_at: timestamp
     )
   end
 end

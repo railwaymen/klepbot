@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class PeriodUserContactsGainQuery
-  def initialize(period = 'month', from: Time.current - 12.months, to: Time.current, user_ids: [])
+class PeriodEventsContactsQuery
+  def initialize(period = 'month', from: Time.current - 12.months, to: Time.current, event_ids: [])
     @period = period
     @from = from + 1.send(period)
     @to = to + 1.send(period)
-    @user_ids = user_ids.reject(&:blank?)
+    @event_ids = event_ids.reject(&:blank?)
   end
 
   def call
@@ -17,10 +17,10 @@ class PeriodUserContactsGainQuery
 
   private
 
-  def user_ids_where
-    return '' if @user_ids.empty?
+  def event_ids_where
+    return '' if @event_ids.empty?
 
-    "WHERE users.id IN (#{@user_ids.join(',')})"
+    "WHERE contact_events.id IN (#{@event_ids.join(',')})"
   end
 
   def raw_series
@@ -36,28 +36,28 @@ class PeriodUserContactsGainQuery
   def raw
     "
       SELECT
-        users.id AS id,
-        users.first_name || ' ' || users.last_name AS name,
+        contact_events.id AS id,
+        contact_events.name AS name,
+        contact_events.color AS color,
         json_agg(stats.count ORDER BY stats.period ASC) AS counts,
         json_agg(stats.period ORDER BY stats.period ASC) AS periods,
         '#{@period}' AS period_name
       FROM (
         SELECT
           COUNT(contacts.*) FILTER (WHERE date_trunc('#{@period}', contacts.created_at) = dates.dates_series),
-          users.id AS user_id,
+          contact_events.id AS contact_event_id,
           dates.dates_series AS period
-        FROM users
-        LEFT JOIN contacts ON users.id = contacts.user_id
+        FROM contact_events
+        LEFT JOIN contacts ON contact_events.id = contacts.contact_event_id
         cross JOIN (
           #{raw_series}
         ) dates
-        GROUP BY users.id, dates.dates_series
+        GROUP BY contact_events.id, dates.dates_series
         ORDER BY dates.dates_series ASC
       ) stats
-      LEFT JOIN users ON users.id = stats.user_id
-      #{user_ids_where}
-      GROUP BY users.id
+      LEFT JOIN contact_events ON contact_events.id = stats.contact_event_id
+      #{event_ids_where}
+      GROUP BY contact_events.id
     "
   end
 end
-

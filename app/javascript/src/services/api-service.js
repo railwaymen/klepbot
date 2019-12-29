@@ -1,6 +1,12 @@
 const DEFAULT_API_URL = '/api';
 
 class ApiService {
+  static parseArray(array, attributeName) {
+    array.map(element => (
+      `${attributeName}[]=${element}`
+    )).join('&')
+  }
+
   static get = (params) => {
     return fetch(`${DEFAULT_API_URL}/${params.url}`)
       .then((response) => {

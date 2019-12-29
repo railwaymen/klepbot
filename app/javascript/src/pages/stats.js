@@ -1,61 +1,92 @@
 import React from 'react';
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
-  VerticalBarSeries,
-  VerticalBarSeriesCanvas
-} from 'react-vis';
+import ContactsStats from '../components/stats/contacts-stats';
+import EventsStats from '../components/stats/events-stats';
+
 import StatsService from '../services/stats-service';
+import UsersService from '../services/users-service';
+import EventsService from '../services/events-service';
 
 export default class Stats extends React.Component {
   state = {
-    useCanvas: false,
-    userPeriods: []
+    contactsStats: [],
+    users: [],
+    eventsStats: [],
+    events: [],
+    selectedTab: 'contacts'
+  }
+
+  onSelectTab = (name) => {
+    this.setState({ selectedTab: name });
   }
 
   componentDidMount() {
-    StatsService.periodGain().then(userPeriods => {
-      this.setState({
-        userPeriods
-      });
+    StatsService.contactsStats().then(contactsStats => {
+      this.setState({ contactsStats });
+    });
+
+    StatsService.eventsStats().then(eventsStats => {
+      this.setState({ eventsStats });
+    });
+
+    UsersService.all().then(users => {
+      this.setState({ users })
+    });
+
+    EventsService.all().then(events => {
+      this.setState({ events })
+    });
+  }
+
+  onContactStatsChange = ({ period, from, to, userId }) => {
+    StatsService.contactsStats(period, from, to, userId).then(contactsStats => {
+      this.setState({ contactsStats });
     })
   }
 
-  calcDataForUserPeriod = (userPeriod) => {
-    let data = [];
-
-    userPeriod.periods.forEach((_el, i) => {
-      data.push({
-        x: userPeriod.periods[i],
-        y: userPeriod.counts[i],
-      })
+  onEventsStatsChange = ({ period, from, to, eventId }) => {
+    StatsService.eventsStats(period, from, to, eventId).then(eventsStats => {
+      this.setState({ eventsStats });
     })
-
-    return data;
   }
 
   render() {
-    const { useCanvas } = this.state;
-    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
-
-    const { userPeriods } = this.state;
+    const { contactsStats, eventsStats, users, selectedTab, events } = this.state;
 
     return (
-      <div>
-        <XYPlot width={500} height={500} stackBy="y">
-          <VerticalGridLines />
-          <HorizontalGridLines />
-          <XAxis />
-          <YAxis />
-          {userPeriods.map(userPeriod => (
-            <BarSeries title={userPeriod.user_name} data={this.calcDataForUserPeriod(userPeriod)} />
-          ))}
-        </XYPlot>
+      <div className="container stats">
+        <div className="row">
+          <Tabs onSelectTab={this.onSelectTab} selected={selectedTab} />
+          {selectedTab === 'contacts' ? <ContactsStats
+            contactsStats={contactsStats}
+            users={users}
+            onContactStatsChange={this.onContactStatsChange}
+          /> : null}
+          {selectedTab === 'events' ? <EventsStats
+            eventsStats={eventsStats}
+            events={events}
+            onEventsStatsChange={this.onEventsStatsChange}
+          /> : null}
+        </div>
       </div>
     );
   }
+}
+
+function Tabs({ onSelectTab, selected }) {
+  const tabs = ['contacts', 'events', 'progress', 'emails'];
+
+  return (
+    <div className="tabs">
+      {tabs.map(tab => (
+        <div
+          key={tab}
+          onClick={() => onSelectTab(tab)}
+          className={`tab ${selected === tab ? 'selected' : ''}`}
+        >
+          {tab.charAt(0).toUpperCase() + tab.slice(1)}
+        </div>
+      ))}
+    </div>
+  )
 }
 
