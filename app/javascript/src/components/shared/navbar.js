@@ -17,7 +17,9 @@ export default function Navbar() {
           </RouteLinkWrapper>
           <RouteLinkWrapper name="Contacts" to="/contacts">
             <RouteLinkWrapper name="Contacts" ico="fas fa-user-friends" to="/contacts" />
-            <RouteLinkWrapper name="New contact" ico="fas fa-plus" to="/contacts/new" />
+            <RouteLinkWrapper name="New contact" ico="fas fa-user-plus" to="/contacts/new" />
+            <RouteLinkWrapper name="Events" ico="fab fa-connectdevelop" to="/events" />
+            <RouteLinkWrapper name="Statuses" ico="fas fa-tasks" to="/statuses" />
             <RouteLinkWrapper name="Import" ico="fas fa-file-import" to="/contacts/new" />
             <RouteLinkWrapper name="Export" ico="fas fa-file-export" to="/contacts/new" />
           </RouteLinkWrapper>

@@ -7,6 +7,8 @@ import NotificationsContext from '../../contexts/notifications-context';
 import ContactEditForm from './contact-edit-form';
 import ComposeEmail from './compose-email';
 import ContactAction from './contact-action';
+import EventsService from '../../services/events-service';
+import StatusesService from '../../services/statuses-service';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -29,11 +31,11 @@ class ContactModal extends Component {
       this.setState({ contactActions })
     });
 
-    ContactsService.statuses().then(statuses => {
+    StatusesService.all().then(statuses => {
       this.setState({ statuses })
     })
 
-    ContactsService.events().then(events => {
+    EventsService.all().then(events => {
       this.setState({ events })
     })
   }

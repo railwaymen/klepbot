@@ -39,13 +39,20 @@ class ComposeEmail extends Component {
     } = this;
 
     return (
-      <div className="details col">
+      <div className="details col form-control-klepbot">
         <div className="email-body">
           <p>{email}</p>
-          <textarea rows="12" name="template" className="form-control" value={template} onChange={this.onChange} />
+          <div className="input-anim-container">
+            <label htmlFor="templateBody">Body</label>
+            <div className="border" />
+            <textarea rows="12" placeholder="Write your email" id="templateBody" name="template" className="form-control" value={template} onChange={this.onChange} />
+            <div className="border" />
+          </div>
         </div>
         <EmailTemplates onSelect={this.onSelectTemplate} />
-        <button type="button" className="btn btn-light" onClick={this.onSubmit}>Compose</button>
+        <div className="button-container">
+          <button type="button" className="btn btn-light" onClick={this.onSubmit}>Compose</button>
+        </div>
       </div>
     )
   }

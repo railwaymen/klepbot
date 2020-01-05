@@ -36,7 +36,7 @@ class Details extends Component {
     } = this;
 
     return (
-      <div className="details">
+      <div className="details form-control-klepbot">
         <div className="email-body">
           <p>{email}</p>
           <textarea name="template" className="form-control" value={template} onChange={this.onChange} />

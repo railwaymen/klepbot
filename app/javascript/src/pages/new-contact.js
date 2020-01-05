@@ -5,6 +5,8 @@ import NotificationsContext from '../contexts/notifications-context';
 
 import ContactModel from '../models/contact-model';
 import ContactsService from '../services/contacts-service';
+import EventsService from '../services/events-service';
+import StatusesService from '../services/statuses-service';
 
 class NewContact extends Component {
   static contextType = NotificationsContext;
@@ -16,13 +18,13 @@ class NewContact extends Component {
   }
 
   componentDidMount() {
-    ContactsService.statuses().then(statuses => {
+    StatusesService.all().then(statuses => {
       this.setState({ statuses })
-    })
+    });
 
-    ContactsService.events().then(events => {
+    EventsService.all().then(events => {
       this.setState({ events })
-    })
+    });
   }
 
   onChange = ({ value, name }) => {
@@ -62,7 +64,7 @@ class NewContact extends Component {
       context: { pushNotification }
     } = this;
 
-    ContactsService.create(contact.toParams()).then(updatedContact => {
+    ContactsService.create(contact.toParams()).then(() => {
       this.setState({
         contact: new ContactModel({}),
       }, () => {

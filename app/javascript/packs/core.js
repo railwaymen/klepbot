@@ -19,6 +19,12 @@ import EmailTemplateEdit from '../src/pages/email-template-edit';
 import Contacts from '../src/pages/contacts';
 import NewContact from '../src/pages/new-contact';
 
+import Events from '../src/pages/events';
+import Event from '../src/pages/event';
+
+import Statuses from '../src/pages/statuses';
+import Status from '../src/pages/status';
+
 import Stats from '../src/pages/stats';
 
 class Core extends Component {
@@ -77,6 +83,24 @@ class Core extends Component {
               </Route>
               <Route path="/contacts" exact>
                 <Contacts />
+              </Route>
+              <Route path="/events" exact>
+                <Events />
+              </Route>
+              <Route path="/events/new" exact>
+                <Event />
+              </Route>
+              <Route path="/events/:id/edit" exact>
+                <Event />
+              </Route>
+              <Route path="/statuses" exact>
+                <Statuses />
+              </Route>
+              <Route path="/statuses/new" exact>
+                <Status />
+              </Route>
+              <Route path="/statuses/:id/edit" exact>
+                <Status />
               </Route>
               <Route path="/contacts/new" exact>
                 <NewContact />

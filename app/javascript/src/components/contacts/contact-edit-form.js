@@ -40,10 +40,11 @@ class ContactEditForm extends Component {
     } = this.props;
 
     return (
-      <form className="col-md-12">
-        <div className="input-group mb-3">
+      <form className="col-md-12 form-control-klepbot">
+        <div className="input-group mb-3 input-anim-container">
           <input
             type="text"
+            id="contact_first_name"
             className="form-control"
             placeholder="First name"
             aria-label="First name"
@@ -51,6 +52,9 @@ class ContactEditForm extends Component {
             name="firstName"
             onChange={this.onChange}
           />
+          <div className="border"></div>
+        </div>
+        <div className="input-group mb-3 input-anim-container">
           <input
             type="text"
             className="form-control"
@@ -60,22 +64,22 @@ class ContactEditForm extends Component {
             name="lastName"
             onChange={this.onChange}
           />
+          <div className="border"></div>
         </div>
-        <div className="input-group mb-3">
-          <div className="input-group-prepend">
-            <span className="input-group-text" id="basic-addon1">@</span>
-          </div>
+
+        <div className="input-group mb-3 input-anim-container">
           <input
             type="email"
             className="form-control"
-            placeholder="email"
+            placeholder="Email"
             aria-label="email"
             value={email}
             name="email"
             onChange={this.onChange}
           />
+          <div className="border"></div>
         </div>
-        <div className="input-group mb-3">
+        <div className="input-group mb-3 input-anim-container">
           <input
             type="text"
             className="form-control"
@@ -85,6 +89,9 @@ class ContactEditForm extends Component {
             name="group"
             onChange={this.onChange}
           />
+          <div className="border"></div>
+        </div>
+        <div className="input-group mb-3 input-anim-container">
           <input
             type="text"
             className="form-control"
@@ -94,11 +101,15 @@ class ContactEditForm extends Component {
             name="category"
             onChange={this.onChange}
           />
+          <div className="border"></div>
+        </div>
+        <div className="input-group mb-3 input-anim-container">
           <select name="contact_event_id" className="form-control" onChange={this.onEventChange} value={eventId}>
             {events.map(event => (
               <option key={event.id} value={event.id}>{event.name}</option>
             ))}
           </select>
+          <div className="border"></div>
         </div>
         <div className="input-group mb-3">
           <select name="contact_status_id" className="form-control" onChange={this.onStatusChange} value={statusId}>
@@ -107,8 +118,8 @@ class ContactEditForm extends Component {
             ))}
           </select>
         </div>
-        <div className="input-group mb-3">
-          <button type="button" className="btn btn-light" onClick={this.onSubmit}>Save</button>
+        <div className="input-group mb-3 button-container">
+          <button type="button" className="btn btn-light" onClick={this.onSubmit}>Save Contact</button>
         </div>
       </form>
     )

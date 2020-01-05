@@ -44,7 +44,7 @@ export default class FilterControl extends Component {
     } = this;
 
     return (
-      <div className="stats-dashboard input-group">
+      <div className="stats-dashboard input-group form-control-klepbot">
         <select className="custom-select" name="period" onChange={this.onChange} selected={period}>
           <option value="month">Month</option>
           <option value="year">Year</option>

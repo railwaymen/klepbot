@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   namespace :api, constraints: { format: 'json' } do
     resources :cards, only: %i[index create update]
-    resources :contact_events, only: :index
-    resources :contact_statuses, only: :index
+    resources :contact_events, only: %i[index show create update destroy]
+    resources :contact_statuses, only: %i[index show create update destroy]
     resources :users, only: :index
     resources :stats, only: :index do
       collection do

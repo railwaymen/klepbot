@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useParams, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 import EmailTemplatesService from '../services/email-templates-service';
 
@@ -28,11 +28,13 @@ class EmailTemplates extends Component {
     return (
       <div className="container">
         <h2>Update email template</h2>
-        <EmailTemplateForm
-          {...template}
-          key={template.id}
-          onSave={this.onSave}
-        />
+        <div className="row">
+          <EmailTemplateForm
+            {...template}
+            key={template.id}
+            onSave={this.onSave}
+          />
+        </div>
       </div>
     )
   }

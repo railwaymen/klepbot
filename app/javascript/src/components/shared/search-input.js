@@ -57,24 +57,29 @@ class SearchInput extends Component {
     const { value } = this.state;
 
     return (
-      <div className="search-input" onClick={this.onFocus}>
-        <div className="search-field">
-          <input
-            className="search"
-            ref={(input) => this.input = input}
-            type="text"
-            name="search"
-            value={value}
-            onChange={this.onChange}
-            placeholder="Search"
-            autocomplete="off"
-          />
-        </div>
-        <div className="search-box">
-          { value.length > 0 ?
-            <i onClick={this.clear} key="fa-times" className="fas fa-times"></i> :
-            <i key="fa-search" className="fas fa-search"></i>
-          }
+      <div className="form-control-klepbot" onClick={this.onFocus}>
+        <div className="input-anim-container">
+          <div className="search-input">
+            <div className="search-field">
+              <input
+                className="search"
+                ref={(input) => this.input = input}
+                type="text"
+                name="search"
+                value={value}
+                onChange={this.onChange}
+                placeholder="Search"
+                autoComplete="off"
+              />
+            </div>
+            <div className="search-box">
+              { value.length > 0 ?
+                <i onClick={this.clear} key="fa-times" className="fas fa-times"></i> :
+                <i key="fa-search" className="fas fa-search"></i>
+              }
+            </div>
+          </div>
+          <div className="border" />
         </div>
       </div>
     )

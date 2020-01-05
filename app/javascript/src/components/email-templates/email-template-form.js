@@ -56,7 +56,7 @@ class EmailTemplateForm extends Component {
     const { name, body } = this.state;
 
     return (
-      <form>
+      <form className="col form-control-klepbot">
         <div className="variables">
           <h4>Possible variables</h4>
           <p>{'{{firstName}}'}</p>
@@ -85,7 +85,9 @@ class EmailTemplateForm extends Component {
             name="body"
           />
         </div>
-        <input type="submit" readOnly onClick={this.onSave} />
+        <div className="button-container">
+          <input type="submit" readOnly onClick={this.onSave} value="Create Template" />
+        </div>
       </form>
     )
   }

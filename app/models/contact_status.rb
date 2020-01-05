@@ -1,3 +1,5 @@
 class ContactStatus < ApplicationRecord
-  has_many :contacts
+  validates :name, :color, presence: true
+
+  has_many :contacts, dependent: :restrict_with_error
 end

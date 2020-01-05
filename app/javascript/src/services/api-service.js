@@ -1,3 +1,5 @@
+import ErrorsHelpers from "../helpers/errors-helpers";
+
 const DEFAULT_API_URL = '/api';
 
 class ApiService {
@@ -30,7 +32,7 @@ class ApiService {
       if (response.status >= 200 && response.status < 400) {
         return response.json();
       } else {
-        throw response.json();
+        throw response.json().then(e => new ErrorsHelpers(e));
       }
     })
   }
@@ -60,10 +62,12 @@ class ApiService {
         'accept': 'application/json'
       }
     }).then((response) => {
+      if (response.status === 204) return;
+
       if (response.status >= 200 && response.status < 400) {
         return response.json();
       } else {
-        throw response.json();
+        return response.json().then(e => {throw new ErrorsHelpers(e)});
       }
     })
   }
