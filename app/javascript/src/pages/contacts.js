@@ -9,15 +9,46 @@ import EmailTemplatesService from '../services/email-templates-service';
 import SearchInput from '../components/shared/search-input';
 
 class Contacts extends Component {
-  state = {
-    page: 1,
-    contacts: [],
-    modalContactId: null,
-    openModal: false,
+  constructor(props) {
+    super(props);
+
+    this.page = 1;
+    this.query = '';
+
+    this.state = {
+      contacts: [],
+      modalContactId: null,
+      openModal: false,
+    }
+  }
+
+  onScroll = () => {
+    const lineHeight = window.innerHeight + document.documentElement.scrollTop;
+    const offset = document.documentElement.offsetHeight;
+
+    if (lineHeight === offset) {
+      this.page += 1;
+
+      const { state: { contacts }, page, query } = this;
+
+      ContactsService.search({ query, page }).then(fetchedContacts => {
+        if (fetchedContacts.length > 0) {
+          this.setState({ contacts: contacts.concat(fetchedContacts) })
+        } else {
+          window.onscroll = null;
+        }
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    window.onscroll = null;
   }
 
   componentDidMount() {
-    const { page } = this.state;
+    const { page } = this;
+
+    window.onscroll = this.onScroll;
 
     ContactsService.page(page).then(contacts => {
       this.setState({ contacts })
@@ -53,10 +84,15 @@ class Contacts extends Component {
   }
 
   search = (value) => {
-    const { page } = this.state;
+    this.page = 1;
+    this.query = value;
 
-    ContactsService.search({ query: value, page }).then(contacts => {
-      this.setState({ contacts })
+    const { page, query } = this;
+
+    ContactsService.search({ query, page }).then(contacts => {
+      this.setState({ contacts });
+
+      window.onscroll = this.onScroll;
     });
   }
 
