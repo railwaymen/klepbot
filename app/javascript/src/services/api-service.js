@@ -41,7 +41,7 @@ class ApiService {
     return fetch(`${DEFAULT_API_URL}/${params.url}`, {
       body: params.body,
       method: 'PUT',
-      headers: {
+      headers: params.headers || {
         'Content-Type': 'application/json',
         'accept': 'application/json'
       }

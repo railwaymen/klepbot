@@ -22,6 +22,72 @@ input {
     }
   }
 
+  .photo-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .photo-circle {
+    $photoSize: 240px;
+
+    width: $photoSize;
+    height: $photoSize;
+    border-radius: $photoSize / 2;
+    background-color: transparent;
+    transition-duration: 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+    box-sizing: content-box;
+
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    background-size: $photoSize;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    img {
+      display: block;
+      width: $photoSize;
+      height: $photoSize;
+      position: absolute;
+      border-radius: $photoSize / 2;
+      z-index: 1;
+      object-fit: cover;
+    }
+
+    .placeholder {
+      width: $photoSize;
+      height: $photoSize;
+      position: absolute;
+      border-radius: $photoSize / 2;
+      z-index: 2;
+      transition-duration: 0.2s;
+    }
+
+    .hint {
+      display: none;
+      font-size: 14px;
+      position: absolute;
+      z-index: 2;
+      color: #4a4a4a;
+    }
+
+    &:hover {
+      background-color: rgba(255,255,255,0.5);
+
+      .placeholder {
+        background-color: rgba(255,255,255,0.4);
+      }
+
+      .hint {
+        display: block;
+      }
+    }
+  }
+
   .input-anim-container {
     &:focus-within {
       .border::after {

@@ -9,6 +9,22 @@ class UsersService {
       users.map(user => new UserModel(user))
     ));
   }
+
+  static currentUser() {
+    return ApiService.get({
+      url: 'profile'
+    }).then(user => new UserModel(user));
+  }
+
+  static async currentUserUpdate(params) {
+    return ApiService.put({
+      url: 'profile',
+      body: params,
+      headers: {},
+    }).then(user => (
+      new UserModel(user)
+    ))
+  }
 }
 
 export default UsersService;

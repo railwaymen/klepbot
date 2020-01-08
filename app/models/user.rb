@@ -5,4 +5,5 @@ class User < ApplicationRecord
 
   has_many :contacts
   has_many :touched_contacts, class_name: 'Contact', foreign_key: :touched_id
+  has_one_attached :avatar
 end

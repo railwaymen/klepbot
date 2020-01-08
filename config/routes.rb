@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :contact_events, only: %i[index show create update destroy]
     resources :contact_statuses, only: %i[index show create update destroy]
     resources :users, only: :index
+    resource :profile, only: %i[show update]
     resources :stats, only: :index do
       collection do
         get :period_users_gain

@@ -27,6 +27,8 @@ import Status from '../src/pages/status';
 
 import Stats from '../src/pages/stats';
 
+import Profile from '../src/pages/profile';
+
 class Core extends Component {
   state = {
     notifications: [],
@@ -107,6 +109,9 @@ class Core extends Component {
               </Route>
               <Route path="/stats" exact>
                 <Stats />
+              </Route>
+              <Route path="/profile" exact>
+                <Profile />
               </Route>
             </Switch>
           </div>
