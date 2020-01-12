@@ -1,5 +1,5 @@
 class UserModel {
-  constructor({ id, first_name, last_name, email, token, avatar_url, color }) {
+  constructor({ id, first_name, last_name, email, token, avatar_url, color, signature }) {
     this.id = id;
     this.firstName = first_name;
     this.lastName = last_name;
@@ -7,6 +7,7 @@ class UserModel {
     this.token = token;
     this.avatarUrl = avatar_url || '';
     this.color = color || '#FF9A7B';
+    this.signature = signature;
 
     this.fullName = `${this.firstName} ${this.lastName}`;
   }
@@ -33,6 +34,7 @@ class UserModel {
     last_name: this.lastName,
     email: this.email,
     color: this.color,
+    signature: this.signature,
   })
 }
 

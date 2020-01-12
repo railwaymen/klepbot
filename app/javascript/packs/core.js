@@ -6,6 +6,7 @@ import {
   Route,
 } from "react-router-dom";
 import NotificationsContext from '../src/contexts/notifications-context';
+import CurrentUserContext from '../src/contexts/current-user-context';
 
 import Navbar from '../src/components/shared/navbar';
 import Notifications from '../src/components/shared/notifications';
@@ -28,10 +29,12 @@ import Status from '../src/pages/status';
 import Stats from '../src/pages/stats';
 
 import Profile from '../src/pages/profile';
+import UsersService from '../src/services/users-service';
 
 class Core extends Component {
   state = {
     notifications: [],
+    currentUser: null,
   }
 
   pushNotification = (notification) => {
@@ -55,8 +58,34 @@ class Core extends Component {
     this.setState({ notifications: filteredNotifications });
   }
 
+  currentUser = async () => {
+    const { currentUser } = this.state;
+
+    if (currentUser) return currentUser;
+
+    return UsersService.currentUser().then(user => {
+      this.setState({ currentUser: user });
+
+      return user;
+    }).then(user => {
+      return user;
+    });
+  }
+
+  updateCurrentUser = (currentUser) => {
+    this.setState({
+      currentUser
+    });
+  }
+
   render() {
-    const { pushNotification, destroyNotification, state: { notifications } } = this;
+    const {
+      currentUser,
+      updateCurrentUser,
+      pushNotification,
+      destroyNotification,
+      state: { notifications },
+    } = this;
 
     const notificationsProviderValue = {
       pushNotification,
@@ -64,58 +93,65 @@ class Core extends Component {
       notifications: notifications,
     }
 
+    const currentUserProviderValue = {
+      currentUser,
+      updateCurrentUser,
+    }
+
     return (
       <NotificationsContext.Provider value={notificationsProviderValue}>
-        <Router>
-          <Notifications />
-          <Navbar />
-          <div className="body">
-            <Switch>
-              <Route path="/" exact>
-                <Dashboard />
-              </Route>
-              <Route path="/email-templates" exact>
-                <EmailTemplates />
-              </Route>
-              <Route path="/email-templates/new" exact>
-                <EmailTemplateNew />
-              </Route>
-              <Route path="/email-templates/:id/edit">
-                <EmailTemplateEdit />
-              </Route>
-              <Route path="/contacts" exact>
-                <Contacts />
-              </Route>
-              <Route path="/events" exact>
-                <Events />
-              </Route>
-              <Route path="/events/new" exact>
-                <Event />
-              </Route>
-              <Route path="/events/:id/edit" exact>
-                <Event />
-              </Route>
-              <Route path="/statuses" exact>
-                <Statuses />
-              </Route>
-              <Route path="/statuses/new" exact>
-                <Status />
-              </Route>
-              <Route path="/statuses/:id/edit" exact>
-                <Status />
-              </Route>
-              <Route path="/contacts/new" exact>
-                <NewContact />
-              </Route>
-              <Route path="/stats" exact>
-                <Stats />
-              </Route>
-              <Route path="/profile" exact>
-                <Profile />
-              </Route>
-            </Switch>
-          </div>
-        </Router>
+        <CurrentUserContext.Provider value={currentUserProviderValue}>
+          <Router>
+            <Notifications />
+            <Navbar />
+            <div className="body">
+              <Switch>
+                <Route path="/" exact>
+                  <Dashboard />
+                </Route>
+                <Route path="/email-templates" exact>
+                  <EmailTemplates />
+                </Route>
+                <Route path="/email-templates/new" exact>
+                  <EmailTemplateNew />
+                </Route>
+                <Route path="/email-templates/:id/edit">
+                  <EmailTemplateEdit />
+                </Route>
+                <Route path="/contacts" exact>
+                  <Contacts />
+                </Route>
+                <Route path="/events" exact>
+                  <Events />
+                </Route>
+                <Route path="/events/new" exact>
+                  <Event />
+                </Route>
+                <Route path="/events/:id/edit" exact>
+                  <Event />
+                </Route>
+                <Route path="/statuses" exact>
+                  <Statuses />
+                </Route>
+                <Route path="/statuses/new" exact>
+                  <Status />
+                </Route>
+                <Route path="/statuses/:id/edit" exact>
+                  <Status />
+                </Route>
+                <Route path="/contacts/new" exact>
+                  <NewContact />
+                </Route>
+                <Route path="/stats" exact>
+                  <Stats />
+                </Route>
+                <Route path="/profile" exact>
+                  <Profile />
+                </Route>
+              </Switch>
+            </div>
+          </Router>
+        </CurrentUserContext.Provider>
       </NotificationsContext.Provider>
     )
   }

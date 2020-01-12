@@ -26,12 +26,14 @@ class ContactModel {
     })
   )
 
-  replaceAttributesForEmailTemplate = (template) => {
+  replaceAttributesForEmailTemplate = (template, signature = 'Missing signature!') => {
     let resolvedTempalte = template;
 
     ['firstName', 'lastName', 'email'].forEach(word => {
       resolvedTempalte = resolvedTempalte.replace(`{{${word}}}`, this[word]);
     });
+
+    resolvedTempalte = resolvedTempalte.replace(`{{signature}}`, signature);
 
     return resolvedTempalte;
   }

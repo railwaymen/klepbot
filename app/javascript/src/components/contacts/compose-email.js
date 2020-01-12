@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import EmailTemplates from '../shared/templates';
 import NotificationsContext from '../../contexts/notifications-context';
+import CurrentUserContext from '../../contexts/current-user-context';
 
 class ComposeEmail extends Component {
   static contextType = NotificationsContext;
@@ -9,11 +10,11 @@ class ComposeEmail extends Component {
     template: '',
   }
 
-  onSelectTemplate = (template) => {
+  onSelectTemplate = (template, signature) => {
     const { replaceAttributesForEmailTemplate } = this.props;
 
     this.setState({
-      template: replaceAttributesForEmailTemplate(template.body)
+      template: replaceAttributesForEmailTemplate(template.body, signature)
     })
   }
 
@@ -49,13 +50,27 @@ class ComposeEmail extends Component {
             <div className="border" />
           </div>
         </div>
-        <EmailTemplates onSelect={this.onSelectTemplate} />
+        <EmailTemplatesForCurrentUser onSelect={this.onSelectTemplate} />
         <div className="button-container">
           <button type="button" className="btn btn-light" onClick={this.onSubmit}>Compose</button>
         </div>
       </div>
     )
   }
+}
+
+function EmailTemplatesForCurrentUser({ onSelect }) {
+  const { currentUser } = useContext(CurrentUserContext);
+
+  const onSelectTemplate = (template) => {
+    currentUser().then(user => {
+      onSelect(template, user.signature);
+    })
+  }
+
+  return (
+    <EmailTemplates onSelect={onSelectTemplate} />
+  )
 }
 
 export default ComposeEmail;

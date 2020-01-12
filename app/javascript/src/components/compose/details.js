@@ -13,7 +13,7 @@ class Details extends Component {
   }
 
   onChange = (e) => {
-    const { value, name } = e.target
+    const { value, name } = e.target;
 
     this.setState({
       [name]: value

@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
 class PeriodUserContactsGainQuery
-  def initialize(period = 'month', from: Time.current - 12.months, to: Time.current, user_ids: [])
+  def initialize(period = 'month', from: Time.current - 12.months, to: Time.current, user_ids: [], strftime: '%d-%b-%y')
     @period = period
     @from = from + 1.send(period)
     @to = to + 1.send(period)
     @user_ids = user_ids.reject(&:blank?)
+    @strftime = strftime
   end
 
   def call
     ActiveRecord::Base
       .connection
       .execute(raw)
-      .map(&:symbolize_keys.to_proc >> Stats::DataRecord.method(:new))
+      .map do |e|
+        Stats::DataRecord.new(e.symbolize_keys.merge(strftime: @strftime))
+      end
   end
 
   private

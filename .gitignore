@@ -12,6 +12,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+public/temp-image.png
 config/database.yml
 coverage
 app/python/__pycache__
