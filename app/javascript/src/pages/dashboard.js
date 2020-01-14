@@ -6,16 +6,18 @@ import Compose from '../components/compose';
 
 import CardsService from '../services/cards-service';
 import EmailTemplatesService from '../services/email-templates-service';
+import SearchInput from '../components/shared/search-input';
 
 class Dashboard extends Component {
   state = {
     cards: [],
     templates: [],
+    filteredCards: [],
   }
 
   componentDidMount() {
     CardsService.all().then(cards => {
-      this.setState({ cards });
+      this.setState({ cards, filteredCards: cards });
     })
 
     EmailTemplatesService.all().then(templates => {
@@ -23,17 +25,39 @@ class Dashboard extends Component {
     })
   }
 
+  filterCardsPattern = ({ value }) => {
+    const cards = this.state.cards;
+
+    if (value === '' || value === undefined) return cards;
+
+    return cards.filter(card => (
+      card.metadata.toLowerCase().match(value.toLowerCase())
+    ))
+  }
+
+  onCardsFilter = (e) => {
+    const value = e.target.value;
+
+    this.setState({
+      filteredCards: this.filterCardsPattern({ value })
+    })
+  }
+
   render() {
-    const { cards, templates } = this.state;
+    const { filteredCards, templates } = this.state;
 
     return (
       <EmailTemplatesContext.Provider value={{templates}}>
         <div className="container">
-          <h1>Dashboard</h1>
+          <h1>Cards Dashboard</h1>
+          <SearchInput />
           <div className="compose-containers">
-            {cards.map(card => (
+            { filteredCards.length <= 0 ?
+              <h2>No results found</h2>
+            : filteredCards.map(card => (
               <Compose card={card} key={card.id} />
-            ))}
+            ))
+            }
           </div>
         </div>
       </EmailTemplatesContext.Provider>

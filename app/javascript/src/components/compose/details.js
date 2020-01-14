@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import EmailTemplates from '../shared/templates';
-import CardsService from '../../services/cards-service';
 
 class Details extends Component {
   state = {
@@ -14,7 +13,7 @@ class Details extends Component {
   }
 
   onChange = (e) => {
-    const { value, name } = e.target
+    const { value, name } = e.target;
 
     this.setState({
       [name]: value
@@ -37,11 +36,11 @@ class Details extends Component {
     } = this;
 
     return (
-      <div className="details">
+      <div className="details form-control-klepbot">
         <div className="email-body">
           <p>{email}</p>
-          <textarea name="template" value={template} onChange={this.onChange} />
-          <input onClick={this.onSave} type="submit" value="Save changes" />
+          <textarea name="template" className="form-control" value={template} onChange={this.onChange} />
+          <input onClick={this.onSave} className="btn btn-default" type="submit" value="Save changes" />
         </div>
         <EmailTemplates onSelect={this.onSelectTemplate} />
       </div>

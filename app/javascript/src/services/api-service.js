@@ -1,6 +1,14 @@
+import ErrorsHelpers from "../helpers/errors-helpers";
+
 const DEFAULT_API_URL = '/api';
 
 class ApiService {
+  static parseArray(array, attributeName) {
+    array.map(element => (
+      `${attributeName}[]=${element}`
+    )).join('&')
+  }
+
   static get = (params) => {
     return fetch(`${DEFAULT_API_URL}/${params.url}`)
       .then((response) => {
@@ -24,7 +32,7 @@ class ApiService {
       if (response.status >= 200 && response.status < 400) {
         return response.json();
       } else {
-        throw response.json();
+        throw response.json().then(e => new ErrorsHelpers(e));
       }
     })
   }
@@ -33,7 +41,7 @@ class ApiService {
     return fetch(`${DEFAULT_API_URL}/${params.url}`, {
       body: params.body,
       method: 'PUT',
-      headers: {
+      headers: params.headers || {
         'Content-Type': 'application/json',
         'accept': 'application/json'
       }
@@ -54,10 +62,12 @@ class ApiService {
         'accept': 'application/json'
       }
     }).then((response) => {
+      if (response.status === 204) return;
+
       if (response.status >= 200 && response.status < 400) {
         return response.json();
       } else {
-        throw response.json();
+        return response.json().then(e => {throw new ErrorsHelpers(e)});
       }
     })
   }

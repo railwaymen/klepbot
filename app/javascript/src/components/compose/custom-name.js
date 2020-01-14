@@ -26,10 +26,10 @@ class CustomName extends Component {
 
   render() {
     return (
-      <>
-        <input type="button" value="Save" onClick={this.onSave} />
-        <input type="text" name="name" onChange={this.onChange} />
-      </>
+      <div className="form-group card-name">
+        <input className="btn btn-primary" type="button" value="Save" onClick={this.onSave} />
+        <input className="form-control" type="text" name="name" onChange={this.onChange} />
+      </div>
     )
   }
 }

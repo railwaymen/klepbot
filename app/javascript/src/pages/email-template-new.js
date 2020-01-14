@@ -21,8 +21,12 @@ class EmailTemplates extends Component {
 
     return (
       <div className="container">
-        <h2>Create email template</h2>
-        <EmailTemplateForm {...template} onSave={this.onSave} />
+        <div className="row">
+          <h2>Create email template</h2>
+          <div className="col-12">
+            <EmailTemplateForm {...template} onSave={this.onSave} />
+          </div>
+        </div>
       </div>
     )
   }

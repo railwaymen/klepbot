@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import NotificationsContext from '../../contexts/notifications-context';
 
 class EmailTemplateForm extends Component {
+  static contextType = NotificationsContext;
+
   constructor(props) {
     super(props);
 
@@ -30,7 +33,11 @@ class EmailTemplateForm extends Component {
           body: template.body
         });
 
-        alert('Saved!');
+        this.context.pushNotification({
+          header: 'Success!',
+          type: 'success',
+          body: 'Email template have been created',
+        })
       })
       .catch(e => {
         alert('Can\'t save your changes')
@@ -49,36 +56,43 @@ class EmailTemplateForm extends Component {
     const { name, body } = this.state;
 
     return (
-      <form>
+      <form className="col form-control-klepbot">
         <div className="variables">
           <h4>Possible variables</h4>
           <p>{'{{firstName}}'}</p>
           <p>{'{{lastName}}'}</p>
-          {/* <p>{'{{signature}}'}</p> */}
+          <p>{'{{signature}}'}</p>
         </div>
-        <div className="form-group">
+        <div className="form-group input-anim-container">
           <label htmlFor="name">Name</label>
           <input
             id="name"
             type="text"
+            placeholder="Template name"
             className="form-control"
             value={name}
             onChange={this.onChange}
             name="name"
           />
+          <div className="border"></div>
         </div>
-        <div className="form-group">
+        <div className="form-group input-anim-container">
           <label htmlFor="body">Body</label>
+          <div className="border"></div>
           <textarea
             id="body"
             type="text"
             className="form-control"
+            placeholder="Template body"
             value={body}
             onChange={this.onChange}
             name="body"
           />
+          <div className="border"></div>
         </div>
-        <input type="submit" readOnly onClick={this.onSave} />
+        <div className="button-container">
+          <input type="submit" readOnly onClick={this.onSave} value="Create Template" />
+        </div>
       </form>
     )
   }

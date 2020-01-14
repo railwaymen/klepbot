@@ -9,6 +9,19 @@ Rails.application.routes.draw do
 
   namespace :api, constraints: { format: 'json' } do
     resources :cards, only: %i[index create update]
+    resources :contact_events, only: %i[index show create update destroy]
+    resources :contact_statuses, only: %i[index show create update destroy]
+    resources :users, only: :index
+    resource :profile, only: %i[show update]
+    resources :stats, only: :index do
+      collection do
+        get :period_users_gain
+        get :period_events_gain
+      end
+    end
+    resources :contacts, except: %i[destroy edit] do
+      resources :actions, controller: :contact_actions, only: %i[index create]
+    end
     resources :email_templates, only: %i[index show create update]
     devise_for :users, controllers: { sessions: 'api/sessions' }
   end

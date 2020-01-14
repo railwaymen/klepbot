@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_06_155705) do
+ActiveRecord::Schema.define(version: 2020_01_09_172558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,61 @@ ActiveRecord::Schema.define(version: 2019_11_06_155705) do
     t.string "possible_names", default: [], array: true
   end
 
+  create_table "contact_actions", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
+    t.string "category"
+    t.string "group"
+    t.bigint "contact_id", null: false
+    t.string "reason"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "contact_status_id", null: false
+    t.bigint "contact_event_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "touched_id"
+    t.text "email_body"
+    t.string "action_type", default: "update"
+    t.index ["contact_event_id"], name: "index_contact_actions_on_contact_event_id"
+    t.index ["contact_id"], name: "index_contact_actions_on_contact_id"
+    t.index ["contact_status_id"], name: "index_contact_actions_on_contact_status_id"
+    t.index ["touched_id"], name: "index_contact_actions_on_touched_id"
+    t.index ["user_id"], name: "index_contact_actions_on_user_id"
+  end
+
+  create_table "contact_events", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "contact_statuses", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "email", null: false
+    t.string "category"
+    t.string "group"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "contact_status_id", null: false
+    t.bigint "contact_event_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "touched_id"
+    t.index ["contact_event_id"], name: "index_contacts_on_contact_event_id"
+    t.index ["contact_status_id"], name: "index_contacts_on_contact_status_id"
+    t.index ["touched_id"], name: "index_contacts_on_touched_id"
+    t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
   create_table "email_templates", force: :cascade do |t|
     t.string "name", null: false
     t.text "body", null: false
@@ -65,9 +120,21 @@ ActiveRecord::Schema.define(version: 2019_11_06_155705) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "signature"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contact_actions", "contact_events"
+  add_foreign_key "contact_actions", "contact_statuses"
+  add_foreign_key "contact_actions", "contacts"
+  add_foreign_key "contact_actions", "users"
+  add_foreign_key "contact_actions", "users", column: "touched_id"
+  add_foreign_key "contacts", "contact_events"
+  add_foreign_key "contacts", "contact_statuses"
+  add_foreign_key "contacts", "users"
+  add_foreign_key "contacts", "users", column: "touched_id"
 end

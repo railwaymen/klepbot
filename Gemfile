@@ -16,6 +16,7 @@ gem 'webpacker', '~> 4.0'
 gem 'devise'
 gem 'slim'
 gem 'jwt', require: false
+gem 'kaminari'
 
 group :development, :test do
   gem 'immigrant'
@@ -31,6 +32,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
+  gem 'faker'
 end
 
 group :test do

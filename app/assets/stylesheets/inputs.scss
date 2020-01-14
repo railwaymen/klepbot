@@ -1,0 +1,217 @@
+input {
+  font-family: 'Lato', sans-serif;
+}
+
+.form-control-klepbot {
+  padding: 16px 0;
+  background-color: #fefefe;
+  select {
+    padding: 7px;
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 1px solid transparent;
+    font-weight: 200;
+    font-family: 'Lato', sans-serif !important;
+    outline: none !important;
+    color: #0c0c0c;
+    border: 0;
+    &:focus {
+      outline: none !important;
+      box-shadow: none;
+      border: 0;
+    }
+  }
+
+  .photo-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .photo-circle {
+    $photoSize: 240px;
+
+    width: $photoSize;
+    height: $photoSize;
+    border-radius: $photoSize / 2;
+    background-color: transparent;
+    transition-duration: 0.3s;
+    border: 2px solid transparent;
+    position: relative;
+    box-sizing: content-box;
+
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    background-size: $photoSize;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    img {
+      display: block;
+      width: $photoSize;
+      height: $photoSize;
+      position: absolute;
+      border-radius: $photoSize / 2;
+      z-index: 1;
+      object-fit: cover;
+    }
+
+    .placeholder {
+      width: $photoSize;
+      height: $photoSize;
+      position: absolute;
+      border-radius: $photoSize / 2;
+      z-index: 2;
+      transition-duration: 0.2s;
+    }
+
+    .hint {
+      display: none;
+      font-size: 14px;
+      position: absolute;
+      z-index: 2;
+      color: #4a4a4a;
+    }
+
+    &:hover {
+      background-color: rgba(255,255,255,0.5);
+
+      .placeholder {
+        background-color: rgba(255,255,255,0.4);
+      }
+
+      .hint {
+        display: block;
+      }
+    }
+  }
+
+  .input-anim-container {
+    &:focus-within {
+      .border::after {
+        width: 100%;
+        left: 0;
+      }
+    }
+    .border {
+      width: 100%;
+      position: relative;
+      border: 0;
+
+      &.error {
+        &::after {
+          width: 100%;
+          background-color: #FA6057;
+          left: 0;
+        }
+      }
+
+      &::after {
+        transition-duration: 0.3s;
+        width: 0%;
+        left: 50%;
+        top: 0;
+        height: 2px;
+        position: absolute;
+        content: "";
+        background-color: rgb(190, 131, 253);
+      }
+    }
+  }
+
+  input[type="color"] {
+    border-radius: 0;
+    border: 0;
+    font-weight: 200;
+    font-family: 'Lato', sans-serif !important;
+    outline: none !important;
+    box-shadow: none;
+
+    &:focus {
+      border: 0 !important;
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
+
+  input[type="text"], input[type="email"], input[type="date"], textarea {
+    padding: 20px 9px;
+    box-sizing: border-box;
+    border-radius: 0;
+    border: 0;
+    font-weight: 200;
+    font-family: 'Lato', sans-serif !important;
+    outline: none !important;
+    box-shadow: none;
+
+    &:focus {
+      border: 0 !important;
+      outline: none !important;
+      box-shadow: none;
+    }
+  }
+
+  button, input[type="submit"] {
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(190, 131, 253, 0.75);
+    -moz-box-shadow: 0px 0px 15px -10px rgba(190, 131, 253, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(190, 131, 253, 0.75);
+
+    color: #fafafa;
+    background-color: rgb(190, 131, 253);
+    font-family: 'Lato', sans-serif !important;
+    border-radius: 24px;
+    border: 0 !important;
+    outline: none !important;
+    padding: 12px 34px;
+    font-weight: 400;
+    text-transform: uppercase;
+
+    &:hover {
+      background-color: rgb(190, 131, 253);
+      color: #fafafa;
+      -webkit-box-shadow: 0px 0px 15px 0px rgba(190, 131, 253, 0.75);
+      -moz-box-shadow: 0px 0px 15px 0px rgba(190, 131, 253, 0.75);
+      box-shadow: 0px 0px 15px 0px rgba(190, 131, 253, 0.75);
+    }
+  }
+}
+
+@-webkit-keyframes icon-slide {
+  from { margin-right: 25px; opacity: 0; }
+  to { margin-right: 0; opacity: 1; }
+}
+
+.search-input {
+  display: flex;
+  justify-content: space-between;
+  transition-duration: 0.5s;
+
+  .search-field {
+    flex: auto;
+  }
+
+  .search-box {
+    padding: 14px;
+    align-items: center;
+    color: #6756A6;
+
+    i {
+      animation-name: icon-slide;
+      animation-duration: 0.3s;
+    }
+  }
+
+  input.search {
+    border: 0;
+    outline: none;
+    border-radius: 0;
+    transition-duration: 0.3s;
+    padding: 14px;
+    width: 100%;
+    &:focus {
+      outline: none !important;
+    }
+  }
+}

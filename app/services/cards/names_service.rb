@@ -4,7 +4,7 @@ module Cards
   class NamesService
     def initialize(metadata, email)
       @metadata = metadata
-      @email = email
+      @email = email.split('@')[0]
     end
 
     def names
@@ -26,11 +26,7 @@ module Cards
     def most_accurate_possible_name
       email_letters = @email.match(/[a-z]?.+@/).to_s.split('')
 
-      if possible_names.length == 1
-        possible_names.first
-      elsif possible_names.length > 1
-        resolve_array_of_names(email_letters)
-      end
+      possible_names.length == 1 ? possible_names.first : resolve_array_of_names(email_letters)
     end
 
     def resolve_array_of_names(email_letters)
