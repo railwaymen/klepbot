@@ -157,7 +157,7 @@ class ContactModal extends Component {
     return (
       <div className="modal">
         <div className="container">
-          <TaskCreate contactId={id} />
+          <TaskCreate contact={contact} contactId={id} />
           <div className="row box">
             <div className="col">
               <h1>{firstName} {lastName}</h1>
