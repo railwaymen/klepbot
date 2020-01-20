@@ -9,6 +9,7 @@ import ComposeEmail from './compose-email';
 import ContactAction from './contact-action';
 import EventsService from '../../services/events-service';
 import StatusesService from '../../services/statuses-service';
+import TaskCreate from '../tasks/task-create';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -141,7 +142,7 @@ class ContactModal extends Component {
     const {
       state: {
         contact: {
-          firstName, lastName,
+          id, firstName, lastName,
           event: { name: eventName, color: eventColor },
           status: { name: statusName, color: statusColor },
         },
@@ -156,6 +157,7 @@ class ContactModal extends Component {
     return (
       <div className="modal">
         <div className="container">
+          <TaskCreate contactId={id} />
           <div className="row box">
             <div className="col">
               <h1>{firstName} {lastName}</h1>
