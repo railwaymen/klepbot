@@ -5,7 +5,7 @@ class UserModel {
     this.lastName = last_name;
     this.email = email;
     this.token = token;
-    this.avatarUrl = avatar_url || '';
+    this.avatarUrl = avatar_url || '/temp-image.png';
     this.color = color || '#FF9A7B';
     this.signature = signature;
 

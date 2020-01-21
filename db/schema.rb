@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_09_172558) do
+ActiveRecord::Schema.define(version: 2020_01_21_113122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,19 @@ ActiveRecord::Schema.define(version: 2020_01_09_172558) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id"
+    t.text "description", null: false
+    t.datetime "send_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_tasks_on_contact_id"
+    t.index ["created_by_id"], name: "index_tasks_on_created_by_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -137,4 +150,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_172558) do
   add_foreign_key "contacts", "contact_statuses"
   add_foreign_key "contacts", "users"
   add_foreign_key "contacts", "users", column: "touched_id"
+  add_foreign_key "tasks", "contacts"
+  add_foreign_key "tasks", "users"
+  add_foreign_key "tasks", "users", column: "created_by_id"
 end

@@ -6,37 +6,29 @@ import CurrentUserContext from '../../contexts/current-user-context';
 class ComposeEmail extends Component {
   static contextType = NotificationsContext;
 
-  state = {
-    template: '',
-  }
-
   onSelectTemplate = (template, signature) => {
-    const { replaceAttributesForEmailTemplate } = this.props;
+    const { replaceAttributesForEmailTemplate, setTemplate } = this.props;
 
-    this.setState({
-      template: replaceAttributesForEmailTemplate(template.body, signature)
-    })
+    setTemplate(replaceAttributesForEmailTemplate(template.body, signature))
   }
 
-  onChange = (e) => {
-    const { target: { value } } = e;
+  onChange = ({ target: { value } }) => {
+    const { setTemplate } = this.props;
 
-    this.setState({ template: value });
+    setTemplate(value);
   }
 
   onSubmit = () => {
     const {
-      props: { composeEmail },
-      state: { template },
+      props: { onComposeEmail, template },
     } = this;
 
-    composeEmail(template);
+    onComposeEmail(template);
   }
 
   render() {
     const {
-      props: { email },
-      state: { template },
+      props: { email, template },
     } = this;
 
     return (
