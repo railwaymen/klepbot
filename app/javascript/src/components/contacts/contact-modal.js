@@ -158,6 +158,8 @@ class ContactModal extends Component {
         type: 'error',
         body: `There was an error with processing request '${e.message}'`,
       });
+
+      throw e;
     });
   }
 

@@ -106,15 +106,15 @@ export default class TaskForm extends Component {
           <div className="border"></div>
         </div>
         <div className="form-group input-anim-container">
-          <label htmlFor="time">Send at</label>
+          <label htmlFor="sendAt">Send at</label>
           <input
-            id="time"
+            id="sendAt"
             type="datetime-local"
             placeholder="Select time"
             className="form-control"
             value={sendAt}
             onChange={onChange}
-            name="time"
+            name="sendAt"
           />
           <div className="border"></div>
         </div>

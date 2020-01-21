@@ -18,17 +18,15 @@ class TaskCreate extends Component {
   }
 
   onChange = ({ target: { name, value } }) => {
-    console.log({name, value})
-
     this.setState({
       [name]: value
     });
   }
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
       state: { selectedUserId: user_id, description, sendAt: send_at },
-      props: { onTaskSubmit },
+      props: { onTaskSubmit, close },
     } = this;
 
     onTaskSubmit({
@@ -37,8 +35,10 @@ class TaskCreate extends Component {
       send_at,
     }).then(() => {
       close();
-    }).catch(() => {
-      alert('Catched!')
+    }).catch(e => {
+      e.then(errors => {
+        console.log(errors);
+      })
     })
   }
 
