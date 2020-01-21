@@ -5,11 +5,11 @@ import ContactModel from '../../models/contact-model';
 import NotificationsContext from '../../contexts/notifications-context';
 
 import ContactEditForm from './contact-edit-form';
-import ComposeEmail from './compose-email';
 import ContactAction from './contact-action';
 import EventsService from '../../services/events-service';
 import StatusesService from '../../services/statuses-service';
-import TaskCreate from '../tasks/task-create';
+import ContactActions from './contact-actions';
+import TasksService from '../../services/tasks-service';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -119,7 +119,7 @@ class ContactModal extends Component {
       context: { pushNotification }
     } = this;
 
-    ContactsService.createEmailAction(contact.id, template).then(contactAction => {
+    return ContactsService.createEmailAction(contact.id, template).then(contactAction => {
       this.setState({
         contactActions: [contactAction].concat(contactActions),
       })
@@ -138,11 +138,34 @@ class ContactModal extends Component {
     });
   }
 
+  onTaskSubmit = (params) => {
+    const {
+      state: {
+        contact: { id },
+      },
+      context: { pushNotification }
+    } = this;
+
+    return TasksService.create({ contactId: id, params }).then(() => {
+      pushNotification({
+        header: 'Success!',
+        type: 'success',
+        body: 'Your task have been created',
+      });
+    }).catch(e => {
+      pushNotification({
+        header: 'Error!',
+        type: 'error',
+        body: `There was an error with processing request '${e.message}'`,
+      });
+    });
+  }
+
   render() {
     const {
       state: {
         contact: {
-          id, firstName, lastName,
+          firstName, lastName,
           event: { name: eventName, color: eventColor },
           status: { name: statusName, color: statusColor },
         },
@@ -157,7 +180,6 @@ class ContactModal extends Component {
     return (
       <div className="modal">
         <div className="container">
-          <TaskCreate contact={contact} contactId={id} />
           <div className="row box">
             <div className="col">
               <h1>{firstName} {lastName}</h1>
@@ -170,6 +192,11 @@ class ContactModal extends Component {
               <i className="fas fa-times" onClick={closeModal}></i>
             </div>
           </div>
+          <ContactActions
+            contact={contact}
+            onComposeEmail={this.onEmailSubmit}
+            onTaskSubmit={this.onTaskSubmit}
+          />
           <div className="row box">
             <div className="col-md-12">
               <h4>Informations</h4>
@@ -182,17 +209,6 @@ class ContactModal extends Component {
                   saveChanges={this.onContactSave}
                   statuses={statuses}
                   events={events}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="row box">
-            <div className="col-md-12">
-              <h4>Prepare email</h4>
-              <div>
-                <ComposeEmail
-                  {...contact}
-                  composeEmail={this.onEmailSubmit}
                 />
               </div>
             </div>

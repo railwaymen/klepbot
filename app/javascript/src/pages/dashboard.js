@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import EmailTemplatesContext from '../contexts/email-templates-context';
 
-import Compose from '../components/compose';
+import Card from '../components/card';
 
 import CardsService from '../services/cards-service';
 import EmailTemplatesService from '../services/email-templates-service';
@@ -55,7 +55,7 @@ class Dashboard extends Component {
             { filteredCards.length <= 0 ?
               <h2>No results found</h2>
             : filteredCards.map(card => (
-              <Compose card={card} key={card.id} />
+              <Card card={card} key={card.id} />
             ))
             }
           </div>

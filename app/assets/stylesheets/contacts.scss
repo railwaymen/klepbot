@@ -4,6 +4,28 @@
 }
 
 .contacts {
+  .actions-container {
+    .action {
+      padding: 12px;
+      width: 64px;
+      height: 64px;
+      background-color: #eee;
+      color: #0c0c0c;
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition-duration: 0.3s;
+      cursor: pointer;
+      margin: 0 12px;
+      i {
+        font-size: 21px;
+      }
+      &:hover {
+        background-color: #ddd;
+      }
+    }
+  }
   .contact, .history-action {
     padding: 22px 12px;
     margin-bottom: 12px;

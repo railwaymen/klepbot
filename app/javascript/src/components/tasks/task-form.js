@@ -10,8 +10,8 @@ export default class TaskForm extends Component {
 
     this.state = {
       showUsers: false,
-      searchedUser,
-      searchUser: '',
+      searchedUser: searchedUser,
+      searchUser: searchedUser ? searchedUser.fullName : '',
     }
   }
 

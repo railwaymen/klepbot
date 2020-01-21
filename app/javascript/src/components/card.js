@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Details from './compose/details';
-import PossibleName from './compose/possible-name';
-import CustomName from './compose/custom-name';
+import PossibleName from './cards/possible-name';
+import CustomName from './cards/custom-name';
 
-import CardDetails from './compose/card-details';
+import CardDetails from './cards/card-details';
 
 class Compose extends Component {
   constructor(props) {
@@ -12,17 +11,10 @@ class Compose extends Component {
     const { card: { status }, card } = this.props;
 
     this.state = {
-      displayInformations: false,
       displayCardDetails: false,
       status: status(),
       card: card
     }
-  }
-
-  onToggleInformations = () => {
-    this.setState(state => ({
-      displayInformations: !state.displayInformations,
-    }));
   }
 
   onToggleCardDetails = () => {
@@ -56,7 +48,7 @@ class Compose extends Component {
     const {
       state: {
         card, card: { firstName, lastName, email, possibleNames },
-        displayInformations, displayCardDetails
+        displayCardDetails
       },
     } = this;
 
@@ -78,16 +70,12 @@ class Compose extends Component {
             </div>
           </div>
           <div className="actions">
-            <div className="btn btn-light toggle-action" onClick={this.onToggleInformations}>
-              <i className="fas fa-chevron-down"></i>
-            </div>
             <div className="btn btn-light toggle-action" onClick={this.onToggleCardDetails}>
               <i className="fas fa-chevron-down"></i>
             </div>
           </div>
         </div>
         <div className="wrapper">
-          {displayInformations ? <Details onCardUpdate={this.onCardUpdate} card={card} /> : null}
           {displayCardDetails ? <CardDetails card={card} /> : null}
         </div>
       </div>
