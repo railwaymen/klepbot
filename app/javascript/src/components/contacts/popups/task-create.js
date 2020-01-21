@@ -23,7 +23,7 @@ class TaskCreate extends Component {
     });
   }
 
-  onSubmit = async () => {
+  onSubmit = () => {
     const {
       state: { selectedUserId: user_id, description, sendAt: send_at },
       props: { onTaskSubmit, close },
@@ -35,10 +35,6 @@ class TaskCreate extends Component {
       send_at,
     }).then(() => {
       close();
-    }).catch(e => {
-      e.then(errors => {
-        console.log(errors);
-      })
     })
   }
 
