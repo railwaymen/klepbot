@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from "react-router-dom";
+import NotificationsCenter from './notifications-center';
 
 export default function Navbar() {
   return (
@@ -26,6 +27,7 @@ export default function Navbar() {
           <RouteLinkWrapper name="Stats" to="/stats" />
           <RouteLinkWrapper name="Reports" to="/reports" />
           <RouteLinkWrapper name="Profile" to="/profile" />
+          <NotificationsCenter />
         </ul>
       </div>
     </nav>

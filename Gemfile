@@ -17,6 +17,7 @@ gem 'devise'
 gem 'slim'
 gem 'jwt', require: false
 gem 'kaminari'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'immigrant'

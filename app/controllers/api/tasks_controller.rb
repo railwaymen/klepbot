@@ -15,6 +15,8 @@ module Api
 
       task.save!
 
+      NotificationWorker.perform_at(task.send_at, task.id)
+
       render json: task.as_json
     end
 
