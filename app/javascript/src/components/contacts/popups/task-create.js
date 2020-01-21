@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import UsersService from '../../../services/users-service';
 import TaskForm from '../../tasks/task-form';
 import PopupWrapper from './popup-wrapper';
+import ValidatorHelper from '../../../helpers/validator-helper';
 
 class TaskCreate extends Component {
   state = {
@@ -9,6 +10,7 @@ class TaskCreate extends Component {
     selectedUserId: null,
     description: '',
     sendAt: '',
+    errors: {},
   }
 
   componentDidMount() {
@@ -25,14 +27,19 @@ class TaskCreate extends Component {
 
   onSubmit = () => {
     const {
-      state: { selectedUserId: user_id, description, sendAt: send_at },
+      state: { selectedUserId, description, sendAt },
       props: { onTaskSubmit, close },
     } = this;
 
+    const validate = new ValidatorHelper();
+    validate.presence({ selectedUserId, description, sendAt });
+
+    if (!validate.isValid()) return this.setState({ errors: validate.errors });
+
     onTaskSubmit({
-      user_id,
+      user_id: selectedUserId,
       description,
-      send_at,
+      send_at: sendAt,
     }).then(() => {
       close();
     })
@@ -40,7 +47,7 @@ class TaskCreate extends Component {
 
   render() {
     const {
-      state: { users, selectedUserId, description, sendAt },
+      state: { users, selectedUserId, description, sendAt, errors },
       props: { contact: { firstName, lastName }, close },
     } = this;
 
@@ -53,6 +60,7 @@ class TaskCreate extends Component {
           description={description}
           sendAt={sendAt}
           onSubmit={this.onSubmit}
+          errors={errors}
         />
       </PopupWrapper>
     )

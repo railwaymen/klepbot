@@ -28,7 +28,7 @@ class ComposeEmail extends Component {
 
   render() {
     const {
-      props: { email, template },
+      props: { email, template, errors },
     } = this;
 
     return (
@@ -37,9 +37,9 @@ class ComposeEmail extends Component {
           <p>{email}</p>
           <div className="input-anim-container">
             <label htmlFor="templateBody">Body</label>
-            <div className="border" />
+            <div className={`border ${errors.template ? 'error' : ''}`}></div>
             <textarea rows="12" placeholder="Write your email" id="templateBody" name="template" className="form-control" value={template} onChange={this.onChange} />
-            <div className="border" />
+            <div className={`border ${errors.template ? 'error' : ''}`}></div>
           </div>
         </div>
         <EmailTemplatesForCurrentUser onSelect={this.onSelectTemplate} />

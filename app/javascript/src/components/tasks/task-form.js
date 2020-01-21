@@ -59,6 +59,7 @@ export default class TaskForm extends Component {
         selectedUserId,
         description,
         sendAt,
+        errors,
       },
       state: {
         searchUser,
@@ -88,7 +89,7 @@ export default class TaskForm extends Component {
               selected={selectedUserId}
               list={users}
             /> : null}
-          <div className={`border ${!selectedUserId ? 'error' : ''}`}></div>
+          <div className={`border ${errors.selectedUserId ? 'error' : ''}`}></div>
         </div>
 
         <div className="form-group input-anim-container">
@@ -103,7 +104,7 @@ export default class TaskForm extends Component {
             onChange={onChange}
             name="description"
           />
-          <div className="border"></div>
+          <div className={`border ${errors.description ? 'error' : ''}`}></div>
         </div>
         <div className="form-group input-anim-container">
           <label htmlFor="sendAt">Send at</label>
@@ -116,7 +117,7 @@ export default class TaskForm extends Component {
             onChange={onChange}
             name="sendAt"
           />
-          <div className="border"></div>
+          <div className={`border ${errors.sendAt ? 'error' : ''}`}></div>
         </div>
 
         <div className="button-container">
