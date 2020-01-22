@@ -46,10 +46,6 @@ class Contacts extends Component {
     window.onscroll = null;
   }
 
-  componentDidUpdate(prevProps, nextProps) {
-    console.log({prevProps, nextProps});
-  }
-
   componentDidMount() {
     const { page } = this;
     const { id } = this.props.match.params;

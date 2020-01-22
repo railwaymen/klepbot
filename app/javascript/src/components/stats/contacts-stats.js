@@ -21,7 +21,6 @@ export default class ContactsStats extends Component {
   }
 
   onFilterChange = (attributes) => {
-    console.log(attributes);
     const { onContactStatsChange } = this.props;
 
     this.filters = { ...this.filters, ...attributes };

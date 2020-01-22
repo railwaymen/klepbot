@@ -25,20 +25,18 @@ class ContactModal extends Component {
   componentDidMount() {
     const { contactId } = this.props;
 
-    ContactsService.find(contactId).then(contact => {
-      this.setState({contact })
-    });
-
-    ContactsService.actions(contactId).then(contactActions => {
-      this.setState({ contactActions })
-    });
-
-    StatusesService.all().then(statuses => {
-      this.setState({ statuses })
-    })
-
-    EventsService.all().then(events => {
-      this.setState({ events })
+    Promise.all([
+      ContactsService.find(contactId),
+      ContactsService.actions(contactId),
+      StatusesService.all(),
+      EventsService.all(),
+    ]).then(([contact, contactActions, statuses, events]) => {
+      this.setState({
+        contact,
+        contactActions,
+        statuses,
+        events,
+      })
     })
   }
 
