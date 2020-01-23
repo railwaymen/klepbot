@@ -104,9 +104,43 @@ $navTextColor: #FF6E8B;
   }
 }
 
+@-webkit-keyframes notifications-load {
+  0% {
+    border: 0 solid $navTextColor;
+  }
+  50% {
+    border: 26px solid $navTextColor;
+    border-radius: 26px;
+  }
+  100% {
+    border: 0 solid $navTextColor;
+  }
+}
+
 #app-navbar {
   background-image: linear-gradient(to right, #6756A6, #BE83FD);
   margin-bottom: 24px;
+
+  .notifications {
+    position: relative;
+    .counter {
+      position: absolute;
+      animation-name: notifications-load;
+      animation-duration: 1s;
+      box-sizing: border-box;
+      right: 0;
+      bottom: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      background-color: $navTextColor;
+      font-size: 12px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+
+    }
+  }
 
   .navbar-brand {
     color: #efefef;

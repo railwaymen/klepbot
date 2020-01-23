@@ -5,7 +5,10 @@ class TasksService {
   static create({ contactId, params }) {
     return ApiService.post({
       url: `contacts/${contactId}/tasks`,
-      body: JSON.stringify({ task: params }),
+      body: JSON.stringify({
+        task: params,
+        zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      }),
     }).then(task => new TaskModel(task));
   }
 

@@ -13,9 +13,13 @@ module Api
 
       task = contact.tasks.new(task_params.merge(created_by_id: current_user.id))
 
+      # raise task.send_at.in_time_zone(params[:zone]).utc.inspect
+
       task.save!
 
-      NotificationWorker.perform_at(task.send_at, task.id)
+      parsed_time = task.send_at.in_time_zone(params[:zone]).utc
+
+      NotificationWorker.perform_at(parsed_time, task.id)
 
       render json: task.as_json
     end
