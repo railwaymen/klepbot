@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ContactStatus < ApplicationRecord
   validates :name, :color, presence: true
 

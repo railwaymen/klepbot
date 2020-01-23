@@ -17,6 +17,7 @@ BlockLength:
   Exclude:
     - 'spec/**/*.rb'
     - 'config/routes.rb'
+    - 'app/views/**/*.jbuilder'
 
 Style/ExpandPathArguments:
   Exclude:
@@ -24,6 +25,10 @@ Style/ExpandPathArguments:
     - 'spec/rails_helper.rb'
     - 'config/environment.rb'
     - 'config/application.rb'
+
+Metrics/ParameterLists:
+  Exclude:
+    - app/**/*
 
 AllCops:
   TargetRubyVersion: 2.4

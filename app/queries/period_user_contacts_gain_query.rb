@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
 class PeriodUserContactsGainQuery
-  def initialize(period = 'month', from: Time.current - 12.months, to: Time.current, user_ids: [], strftime: '%d-%b-%y')
+  def initialize(
+    period = 'month',
+    from: Time.current - 12.months,
+    to: Time.current,
+    user_ids: [],
+    strftime: '%d-%b-%y'
+  )
+
     @period = period
     @from = from + 1.send(period)
     @to = to + 1.send(period)
@@ -36,17 +43,17 @@ class PeriodUserContactsGainQuery
     "
   end
 
-  def raw
+  def raw # rubocop:disable Metrics/MethodLength
     "
       SELECT
         users.id AS id,
         users.first_name || ' ' || users.last_name AS name,
         json_agg(stats.count ORDER BY stats.period ASC) AS counts,
-        json_agg(stats.period ORDER BY stats.period ASC) AS periods,
-        '#{@period}' AS period_name
+        json_agg(stats.period ORDER BY stats.period ASC) AS periods
       FROM (
         SELECT
-          COUNT(contacts.*) FILTER (WHERE date_trunc('#{@period}', contacts.created_at) = dates.dates_series),
+          COUNT(contacts.*)
+            FILTER (WHERE date_trunc('#{@period}', contacts.created_at) = dates.dates_series),
           users.id AS user_id,
           dates.dates_series AS period
         FROM users
@@ -63,4 +70,3 @@ class PeriodUserContactsGainQuery
     "
   end
 end
-

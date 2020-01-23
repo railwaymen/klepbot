@@ -2,7 +2,7 @@
 
 module Contacts
   class SearchQuery
-    SEARCH_FIELDS = %w[first_name last_name email category]
+    SEARCH_FIELDS = %w[first_name last_name email category].freeze
 
     def initialize(scope, query)
       @scope = scope
@@ -22,7 +22,7 @@ module Contacts
         "#{element} ILIKE ?"
       end.join(' OR ')
 
-      values = SEARCH_FIELDS.map { |el| "%#{@query}%" }
+      values = SEARCH_FIELDS.map { |_el| "%#{@query}%" }
 
       [condition, *values]
     end

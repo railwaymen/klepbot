@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :contact_action do
-    contact { nil }
-    reason { "MyString" }
+    contact
+    reason { 'MyString' }
   end
 end

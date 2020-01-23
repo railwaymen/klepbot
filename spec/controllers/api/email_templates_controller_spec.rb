@@ -47,8 +47,10 @@ RSpec.describe Api::EmailTemplatesController, type: :controller do
       context 'params are valid' do
         it 'correctly render the page' do
           sign_in(FactoryBot.create(:user))
+          params = { email_template: { name: 'template name', body: 'Body' } }
+
           expect do
-            post :create, params: { email_template: { name: 'template name', body: 'Body' } }, format: :json
+            post :create, params: params, format: :json
           end.to change(EmailTemplate, :count).by(1)
 
           expect(response.code).to eq '200'

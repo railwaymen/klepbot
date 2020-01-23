@@ -22,7 +22,7 @@ class StatsQuery
       .map(&:symbolize_keys.to_proc >> StatModel.method(:new))
   end
 
-  def events(event_name)
+  def events(event_name) # rubocop:disable Metrics/MethodLength
     execute("
       SELECT
         contact_events.name,
@@ -48,7 +48,7 @@ class StatsQuery
     ")
   end
 
-  def statuses(status_name)
+  def statuses(status_name) # rubocop:disable Metrics/MethodLength
     execute("
       SELECT
         contact_statuses.name,

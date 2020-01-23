@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.array! @contacts do |contact|
   json.extract!(
     contact,

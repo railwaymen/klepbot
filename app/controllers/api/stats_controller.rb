@@ -23,7 +23,7 @@ module Api
     private
 
     def period
-      params[:period].presence_in(['month', 'day', 'year']) || 'month'
+      params[:period].presence_in(%w[month day year]) || 'month'
     end
 
     def from

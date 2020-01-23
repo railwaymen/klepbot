@@ -5,7 +5,7 @@ module Api
     def index
       scope = Contact.order(created_at: :desc).includes(:event, :status)
 
-      @contacts = Contacts::SearchQuery.new(scope, params[:query]).().page(params[:page] || 1)
+      @contacts = Contacts::SearchQuery.new(scope, params[:query]).call.page(params[:page] || 1)
     end
 
     def show
@@ -13,9 +13,11 @@ module Api
     end
 
     def create
-      contact = Contact.new(contact_params.merge(user_id: current_user.id, touched_id: current_user.id))
+      contact = Contact.new(
+        contact_params.merge(user_id: current_user.id, touched_id: current_user.id)
+      )
 
-      if contact.save!
+      if contact.save
         render json: contact.as_json
       else
         render json: contact.errors.messages.as_json, status: :unprocessable_entity
@@ -25,9 +27,9 @@ module Api
     def update
       @contact = Contact.find(params[:id])
 
-      if !@contact.update_with_action(contact_params)
-        render json: @contact.errors.messages.as_json, status: :unprocessable_entity
-      end
+      @contact.update_with_action(contact_params)
+
+      respond_with @contact
     end
 
     private

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.extract!(
   @contact,
   :id,
@@ -29,4 +31,3 @@ json.status do
     :name
   )
 end
-

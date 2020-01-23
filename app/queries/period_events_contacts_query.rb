@@ -33,18 +33,18 @@ class PeriodEventsContactsQuery
     "
   end
 
-  def raw
+  def raw # rubocop:disable Metrics/MethodLength
     "
       SELECT
         contact_events.id AS id,
         contact_events.name AS name,
         contact_events.color AS color,
         json_agg(stats.count ORDER BY stats.period ASC) AS counts,
-        json_agg(stats.period ORDER BY stats.period ASC) AS periods,
-        '#{@period}' AS period_name
+        json_agg(stats.period ORDER BY stats.period ASC) AS periods
       FROM (
         SELECT
-          COUNT(contacts.*) FILTER (WHERE date_trunc('#{@period}', contacts.created_at) = dates.dates_series),
+          COUNT(contacts.*)
+            FILTER (WHERE date_trunc('#{@period}', contacts.created_at) = dates.dates_series),
           contact_events.id AS contact_event_id,
           dates.dates_series AS period
         FROM contact_events

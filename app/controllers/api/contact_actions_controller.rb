@@ -11,15 +11,9 @@ module Api
     def create
       contact = Contact.find(params[:contact_id])
 
-      copy_params = contact_action_params.merge({
-        first_name: contact.first_name,
-        last_name: contact.last_name,
-        email: contact.email,
-        contact_status_id: contact.contact_status_id,
-        contact_event_id: contact.contact_event_id,
-        user_id: contact.user_id,
+      copy_params = contact.action_attributes.merge(
         touched_id: current_user.id
-      })
+      )
 
       @contact_action = contact.actions.create!(copy_params)
     end
