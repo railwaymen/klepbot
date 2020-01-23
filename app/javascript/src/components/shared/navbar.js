@@ -11,23 +11,27 @@ export default function Navbar() {
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
-          <RouteLinkWrapper name="Cards" to="/" />
-          <RouteLinkWrapper name="Email Templates" to="/email-templates">
-            <RouteLinkWrapper name="Email templates" ico="fas fa-file-alt" to="/email-templates" />
-            <RouteLinkWrapper name="New template" ico="fas fa-plus" to="/email-templates/new" />
-          </RouteLinkWrapper>
-          <RouteLinkWrapper name="Contacts" to="/contacts">
-            <RouteLinkWrapper name="Contacts" ico="fas fa-user-friends" to="/contacts" />
-            <RouteLinkWrapper name="New contact" ico="fas fa-user-plus" to="/contacts/new" />
-            <RouteLinkWrapper name="Events" ico="fab fa-connectdevelop" to="/events" />
-            <RouteLinkWrapper name="Statuses" ico="fas fa-tasks" to="/statuses" />
-            <RouteLinkWrapper name="Import" ico="fas fa-file-import" to="/contacts/new" />
-            <RouteLinkWrapper name="Export" ico="fas fa-file-export" to="/contacts/new" />
-          </RouteLinkWrapper>
-          <RouteLinkWrapper name="Stats" to="/stats" />
-          <RouteLinkWrapper name="Reports" to="/reports" />
-          <RouteLinkWrapper name="Profile" to="/profile" />
-          <NotificationsCenter />
+          <div className="left-nav">
+            <RouteLinkWrapper name="Cards" to="/" />
+            <RouteLinkWrapper name="Email Templates" to="/email-templates">
+              <RouteLinkWrapper name="Email templates" ico="fas fa-file-alt" to="/email-templates" />
+              <RouteLinkWrapper name="New template" ico="fas fa-plus" to="/email-templates/new" />
+            </RouteLinkWrapper>
+            <RouteLinkWrapper name="Contacts" to="/contacts">
+              <RouteLinkWrapper name="Contacts" ico="fas fa-user-friends" to="/contacts" />
+              <RouteLinkWrapper name="New contact" ico="fas fa-user-plus" to="/contacts/new" />
+              <RouteLinkWrapper name="Events" ico="fab fa-connectdevelop" to="/events" />
+              <RouteLinkWrapper name="Statuses" ico="fas fa-tasks" to="/statuses" />
+              <RouteLinkWrapper name="Import" ico="fas fa-file-import" to="/contacts/new" />
+              <RouteLinkWrapper name="Export" ico="fas fa-file-export" to="/contacts/new" />
+            </RouteLinkWrapper>
+            <RouteLinkWrapper name="Stats" to="/stats" />
+            <RouteLinkWrapper name="Reports" to="/reports" />
+            <RouteLinkWrapper name="Profile" to="/profile" />
+          </div>
+          <div className="right-nav">
+            <NotificationsCenter />
+          </div>
         </ul>
       </div>
     </nav>

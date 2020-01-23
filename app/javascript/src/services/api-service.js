@@ -9,49 +9,44 @@ class ApiService {
     )).join('&')
   }
 
-  static get = (params) => {
-    return fetch(`${DEFAULT_API_URL}/${params.url}`)
-      .then((response) => {
-        if (response.status >= 200 && response.status < 400) {
-          return response.json();
-        } else {
-          throw response.json();
-        }
-      });
+  static httpResponse = async (response) => {
+    const { status } = response;
+
+    if (status === 201 || status === 204) return true;
+    else if (status >= 200 && status < 400) return response.json();
+    else throw response.json().then(e => new ErrorsHelpers(e));
   }
 
-  static post = (params) => {
-    return fetch(`${DEFAULT_API_URL}/${params.url}`, {
+  static get = async (params) => {
+    const response = await fetch(`${DEFAULT_API_URL}/${params.url}`);
+
+    return ApiService.httpResponse(response);
+  }
+
+  static post = async (params) => {
+    const response = await fetch(`${DEFAULT_API_URL}/${params.url}`, {
       body: params.body,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'accept': 'application/json'
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 400) {
-        return response.json();
-      } else {
-        throw response.json().then(e => new ErrorsHelpers(e));
-      }
-    })
+    });
+
+    return ApiService.httpResponse(response);
   }
 
-  static put = (params) => {
-    return fetch(`${DEFAULT_API_URL}/${params.url}`, {
+  static put = async (params) => {
+    const response = await fetch(`${DEFAULT_API_URL}/${params.url}`, {
       body: params.body,
       method: 'PUT',
       headers: params.headers || {
         'Content-Type': 'application/json',
         'accept': 'application/json'
       }
-    }).then((response) => {
-      if (response.status >= 200 && response.status < 400) {
-        return response.json();
-      } else {
-        throw response.json();
-      }
-    })
+    });
+
+    return ApiService.httpResponse(response);
   }
 
   static delete = (params) => {

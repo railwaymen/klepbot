@@ -121,6 +121,18 @@ $navTextColor: #FF6E8B;
   background-image: linear-gradient(to right, #6756A6, #BE83FD);
   margin-bottom: 24px;
 
+  .navbar-collapse {
+    align-content: space-between;
+    justify-content: space-between;
+    flex: 1;
+    display: flex;
+    align-items: space-between;
+
+    .left-nav, .right-nav {
+      display: flex;
+    }
+  }
+
   .notifications {
     position: relative;
     .counter {

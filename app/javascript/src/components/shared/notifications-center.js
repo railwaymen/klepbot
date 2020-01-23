@@ -5,29 +5,44 @@ import { Link } from 'react-router-dom';
 class NotificationsCenter extends Component {
   state = {
     notifications: [],
-    displayNotifications: true,
+    notificationsCount: 0,
   }
 
   componentDidMount() {
     this.fetchNotifications();
 
-    setInterval(this.fetchNotifications, 60000);
-    setInterval(() => { this.setState((state) => ({ displayNotifications: !state.displayNotifications })) }, 5000)
+    setInterval(this.fetchNotifications, 5000);
   }
 
   fetchNotifications = () => {
-    NotificationsService.all().then(notifications => {
-      this.setState({ notifications });
+    NotificationsService.all().then(({ notificationsCount, notifications }) => {
+      this.setState({
+        notifications,
+        notificationsCount,
+      });
+    });
+  }
+
+  readNotifications = () => {
+    const { notificationsCount } = this.state;
+
+    if (notificationsCount === 0) return;
+
+    NotificationsService.readNotifications().then(() => {
+      this.setState({
+        notificationsCount: 0,
+      })
     });
   }
 
   render() {
-    const { notifications, displayNotifications } = this.state;
+    const { notifications, notificationsCount } = this.state;
+    const displayNotifications = notificationsCount > 0;
 
     return (
-      <li className="nav-item dropdown">
+      <li className="nav-item dropdown" onClick={this.readNotifications}>
         <a className="nav-link notifications" href="javascript:void(0)">
-          {displayNotifications ? <div className="counter">2</div> : null}
+          {displayNotifications ? <div className="counter">{notificationsCount}</div> : null}
           <i className="fas fa-bell"></i>
         </a>
         <ul className="dropdown-menu">

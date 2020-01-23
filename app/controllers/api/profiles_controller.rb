@@ -13,6 +13,10 @@ module Api
       ).call.first
     end
 
+    def read_notifications
+      current_user.update(notifications_last_read_at: Time.current)
+    end
+
     def update
       @user = current_user
 

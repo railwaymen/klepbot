@@ -18,8 +18,10 @@ export default function ContactActions({ contact, onComposeEmail, onTaskSubmit }
           <i className="far fa-envelope-open"></i>
         </div>
       </div>
-      { isTaskOpen ? <TaskCreate close={closeTask} contact={contact} onTaskSubmit={onTaskSubmit} /> : null }
-      { isEmailOpen ? <EmailCreate close={closeEmail} contact={contact} onComposeEmail={onComposeEmail}/> : null}
+      <div className="tasks-container">
+        { isTaskOpen ? <TaskCreate close={closeTask} contact={contact} onTaskSubmit={onTaskSubmit} /> : null }
+        { isEmailOpen ? <EmailCreate close={closeEmail} contact={contact} onComposeEmail={onComposeEmail}/> : null}
+      </div>
     </>
   )
 }
