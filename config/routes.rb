@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :contact_events, only: %i[index show create update destroy]
     resources :contact_statuses, only: %i[index show create update destroy]
     resources :users, only: :index
+    resources :task_types, only: %i[index create update]
     resource :profile, only: %i[show update] do
       collection do
         post :read_notifications
