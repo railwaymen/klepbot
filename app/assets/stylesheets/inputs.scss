@@ -136,7 +136,7 @@ input {
     }
   }
 
-  input[type="text"], input[type="email"], input[type="date"], textarea {
+  input[type="text"], input[type="email"], input[type="date"], input[type="datetime-local"], textarea {
     padding: 20px 9px;
     box-sizing: border-box;
     border-radius: 0;

@@ -18,6 +18,12 @@ class TasksService {
       body: params,
     }).then(tasks => tasks.map(task => new TaskModel(task)));
   }
+
+  static types() {
+    return ApiService.get({
+      url: 'task_types',
+    }) //.then(taskTypes => taskTypes.map(taskType))
+  }
 }
 
 export default TasksService;

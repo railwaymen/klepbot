@@ -128,8 +128,15 @@ $navTextColor: #FF6E8B;
     display: flex;
     align-items: space-between;
 
+    .navbar-nav {
+      flex: 1;
+      justify-content: space-between;
+    }
+
     .left-nav, .right-nav {
       display: flex;
+      flex: 1;
+      justify-content: center;
     }
   }
 
@@ -174,6 +181,8 @@ $navTextColor: #FF6E8B;
       animation-play-state: paused;
       animation-duration: 0.4s;
       min-width: 330px;
+      left: 0;
+      right: auto;
 
       &:after {
         position: absolute;

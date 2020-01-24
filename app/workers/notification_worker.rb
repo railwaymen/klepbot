@@ -7,7 +7,6 @@ class NotificationWorker
     task = Task.find(id)
 
     task.notifications.create!(
-      description: task.description,
       user_id: task.user_id,
       contact_id: task.contact_id
     )

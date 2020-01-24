@@ -28,7 +28,7 @@ module Api
     end
 
     def task_params
-      params.require(:task).permit(:user_id, :description, :send_at)
+      params.require(:task).permit(:user_id, :task_type_id, :title, :description, :send_at)
     end
   end
 end
