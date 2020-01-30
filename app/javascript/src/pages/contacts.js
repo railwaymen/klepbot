@@ -7,6 +7,7 @@ import Contact from '../components/contacts/contact';
 import ContactModal from '../components/contacts/contact-modal';
 import EmailTemplatesService from '../services/email-templates-service';
 import SearchInput from '../components/shared/search-input';
+import { withRouter } from 'react-router-dom';
 
 class Contacts extends Component {
   constructor(props) {
@@ -47,6 +48,8 @@ class Contacts extends Component {
 
   componentDidMount() {
     const { page } = this;
+    const { id } = this.props.match.params;
+    if (id) this.openModal(id);
 
     window.onscroll = this.onScroll;
 
@@ -131,4 +134,4 @@ class Contacts extends Component {
   }
 }
 
-export default Contacts;
+export default withRouter(Contacts);

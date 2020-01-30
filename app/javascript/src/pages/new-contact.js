@@ -18,12 +18,20 @@ class NewContact extends Component {
   }
 
   componentDidMount() {
-    StatusesService.all().then(statuses => {
-      this.setState({ statuses })
-    });
+    Promise.all([
+      StatusesService.all(),
+      EventsService.all(),
+    ]).then(([statuses, events]) => {
+      let { contact } = this.state;
 
-    EventsService.all().then(events => {
-      this.setState({ events })
+      contact.status = statuses[0];
+      contact.event = events[0];
+
+      this.setState({
+        statuses,
+        events,
+        contact,
+      })
     });
   }
 
@@ -66,7 +74,7 @@ class NewContact extends Component {
 
     ContactsService.create(contact.toParams()).then(() => {
       this.setState({
-        contact: new ContactModel({}),
+        contact: new ContactModel({ status: contact.status, event: contact.event }),
       }, () => {
         pushNotification({
           header: 'Success!',

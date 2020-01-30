@@ -118,6 +118,12 @@ class Core extends Component {
                 <Route path="/email-templates/:id/edit">
                   <EmailTemplateEdit />
                 </Route>
+                <Route path="/contacts/new" exact>
+                  <NewContact />
+                </Route>
+                <Route path="/contacts/:id">
+                  <Contacts />
+                </Route>
                 <Route path="/contacts" exact>
                   <Contacts />
                 </Route>
@@ -138,9 +144,6 @@ class Core extends Component {
                 </Route>
                 <Route path="/statuses/:id/edit" exact>
                   <Status />
-                </Route>
-                <Route path="/contacts/new" exact>
-                  <NewContact />
                 </Route>
                 <Route path="/stats" exact>
                   <Stats />

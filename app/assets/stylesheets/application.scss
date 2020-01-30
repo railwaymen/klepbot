@@ -104,9 +104,62 @@ $navTextColor: #FF6E8B;
   }
 }
 
+@-webkit-keyframes notifications-load {
+  0% {
+    border: 0 solid $navTextColor;
+  }
+  50% {
+    border: 26px solid $navTextColor;
+    border-radius: 26px;
+  }
+  100% {
+    border: 0 solid $navTextColor;
+  }
+}
+
 #app-navbar {
   background-image: linear-gradient(to right, #6756A6, #BE83FD);
   margin-bottom: 24px;
+
+  .navbar-collapse {
+    align-content: space-between;
+    justify-content: space-between;
+    flex: 1;
+    display: flex;
+    align-items: space-between;
+
+    .navbar-nav {
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .left-nav, .right-nav {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+    }
+  }
+
+  .notifications {
+    position: relative;
+    .counter {
+      position: absolute;
+      animation-name: notifications-load;
+      animation-duration: 1s;
+      box-sizing: border-box;
+      right: 0;
+      bottom: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      background-color: $navTextColor;
+      font-size: 12px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+
+    }
+  }
 
   .navbar-brand {
     color: #efefef;
@@ -128,6 +181,8 @@ $navTextColor: #FF6E8B;
       animation-play-state: paused;
       animation-duration: 0.4s;
       min-width: 330px;
+      left: 0;
+      right: auto;
 
       &:after {
         position: absolute;

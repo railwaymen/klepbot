@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
+import TaskPerson from './task-person';
+import TaskType from './task-type';
 
 export default class TaskForm extends Component {
   constructor(props) {
     super(props);
 
     const { users, selectedUserId } = this.props;
+    const { taskTypes, selectedTaskTypeId } = this.props;
 
     const searchedUser = users.find(user => user.id === selectedUserId);
+    const searchedTaskType = taskTypes.find(taskType => taskType.id === selectedTaskTypeId);
 
     this.state = {
-      showUsers: false,
-      searchedUser: searchedUser,
+      searchedUser,
       searchUser: searchedUser ? searchedUser.fullName : '',
+
+      searchedTaskType,
+      searchTaskType: searchedTaskType ? searchedTaskType.name : '',
     }
   }
 
@@ -29,15 +35,8 @@ export default class TaskForm extends Component {
     this.setState({
       searchUser: searchedUser.fullName,
       searchedUser,
-      showUsers: false,
     }, () => {
       onChange({ target: { name: 'selectedUserId', value: id }});
-    })
-  }
-
-  showUsers = () => {
-    this.setState({
-      showUsers: true,
     })
   }
 
@@ -51,49 +50,92 @@ export default class TaskForm extends Component {
     });
   }
 
+  onSelectTaskType = (id) => {
+    const { onChange, taskTypes } = this.props;
+    const searchedTaskType = taskTypes.find(taskType => taskType.id === id);
+
+    this.setState({
+      searchTaskType: searchedTaskType.name,
+      searchedTaskType,
+    }, () => {
+      onChange({ target: { name: 'selectedTaskTypeId', value: id }});
+    })
+  }
+
+  onSearchTaskType = ({ target: { value }}) => {
+    const { onChange } = this.props;
+
+    this.setState({
+      searchTaskType: value,
+    }, () => {
+      onChange({ target: { name: 'selectedTaskTypeId', value: null }});
+    });
+  }
+
   render() {
     const {
       props: {
         onChange,
         users,
+        taskTypes,
         selectedUserId,
+        title,
         description,
         sendAt,
+        searchedTaskType,
+        selectedTaskTypeId,
+        errors,
       },
       state: {
         searchUser,
-        showUsers,
+        searchTaskType,
       }
     } = this;
 
     return (
       <form className="col form-control-klepbot" onSubmit={this.onSubmitForm}>
-        <div className="form-group input-anim-container">
-          <label htmlFor="person">Person</label>
-          <input
-            id="person"
-            type="text"
-            placeholder="Select person"
-            className="form-control"
-            value={searchUser}
-            onChange={this.onSearchUser}
-            name="person"
-            autoComplete="off"
-            onFocus={this.showUsers}
-          />
-          {showUsers ?
-            <Users
-              onSelect={this.onSelectUser}
+        <div className="row">
+          <div className="col">
+            <TaskPerson
+              searchUser={searchUser}
+              onChange={this.onSearchUser}
+              onSelectUser={this.onSelectUser}
               value={searchUser}
+              errors={errors.selectedUserId}
               selected={selectedUserId}
               list={users}
-            /> : null}
-          <div className={`border ${!selectedUserId ? 'error' : ''}`}></div>
+            />
+          </div>
+          <div className="col">
+            <div className="form-group input-anim-container">
+              <label htmlFor="title">Title</label>
+              <input
+                id="title"
+                type="text"
+                className="form-control"
+                placeholder="Title"
+                value={title}
+                onChange={onChange}
+                name="title"
+              />
+              <div className={`border ${errors.title ? 'error' : ''}`}></div>
+            </div>
+          </div>
+          <div className="col">
+            <TaskType
+              searchTaskType={searchTaskType}
+              onChange={this.onSearchTaskType}
+              onSelectTaskType={this.onSelectTaskType}
+              value={searchedTaskType}
+              errors={errors.selectedUserId}
+              selected={selectedTaskTypeId}
+              list={taskTypes}
+            />
+          </div>
         </div>
-
         <div className="form-group input-anim-container">
           <label htmlFor="description">Description</label>
-          <div className="border"></div>
+          <div className={`border ${errors.description ? 'error' : ''}`}></div>
           <textarea
             id="description"
             type="text"
@@ -103,7 +145,7 @@ export default class TaskForm extends Component {
             onChange={onChange}
             name="description"
           />
-          <div className="border"></div>
+          <div className={`border ${errors.description ? 'error' : ''}`}></div>
         </div>
         <div className="form-group input-anim-container">
           <label htmlFor="sendAt">Send at</label>
@@ -116,34 +158,12 @@ export default class TaskForm extends Component {
             onChange={onChange}
             name="sendAt"
           />
-          <div className="border"></div>
+          <div className={`border ${errors.sendAt ? 'error' : ''}`}></div>
         </div>
-
         <div className="button-container">
           <input type="submit" readOnly value="Create Task" />
         </div>
       </form>
     )
   }
-}
-
-function Users({ list, value, onSelect }) {
-  const filterList = list.filter(element => {
-    const lowerValue = value.toLowerCase();
-
-    return element.firstName.toLowerCase().match(lowerValue) ||
-      element.lastName.toLowerCase().match(lowerValue) ||
-      element.fullName.toLowerCase().match(lowerValue)
-  })
-
-  return (
-    <div className="users-hint">
-      {filterList.map(user => (
-        <div className="hint" style={{borderColor: user.color}} onClick={() => onSelect(user.id)}>
-          <img src={user.avatarUrl} />
-          <span>{user.fullName}</span>
-        </div>
-      ))}
-    </div>
-  )
 }

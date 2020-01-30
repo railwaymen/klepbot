@@ -12,6 +12,8 @@ class ContactModel {
     this.email = email || '';
     this.updatedAt = updated_at;
 
+    this.fullName = `${this.firstName} ${this.lastName}`
+
     this.status = new StatusModel(status || {});
     this.event = new EventModel(event || {});
   }

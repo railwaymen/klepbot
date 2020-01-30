@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import PopupWrapper from './popup-wrapper';
 import ComposeEmail from '../compose-email';
+import ValidatorHelper from '../../../helpers/validator-helper';
 
 export default function EmailCreate({ contact, onComposeEmail, close }) {
   const [template, setTemplate] = useState('');
-  const onSubmit = (args) => {
+  const [errors, setErrors] = useState({});
+
+  const onSubmit = (template) => {
+    const validate = new ValidatorHelper();
+    validate.presence({ template });
+
+    if (!validate.isValid()) return setErrors(validate.errors);
+
     close();
-    onComposeEmail(args);
+    onComposeEmail(template);
   }
 
   return (
@@ -16,6 +24,7 @@ export default function EmailCreate({ contact, onComposeEmail, close }) {
         template={template}
         setTemplate={setTemplate}
         onComposeEmail={onSubmit}
+        errors={errors}
       />
     </PopupWrapper>
   )

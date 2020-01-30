@@ -10,6 +10,7 @@ import EventsService from '../../services/events-service';
 import StatusesService from '../../services/statuses-service';
 import ContactActions from './contact-actions';
 import TasksService from '../../services/tasks-service';
+import { Link, withRouter } from 'react-router-dom';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -24,20 +25,18 @@ class ContactModal extends Component {
   componentDidMount() {
     const { contactId } = this.props;
 
-    ContactsService.find(contactId).then(contact => {
-      this.setState({contact })
-    });
-
-    ContactsService.actions(contactId).then(contactActions => {
-      this.setState({ contactActions })
-    });
-
-    StatusesService.all().then(statuses => {
-      this.setState({ statuses })
-    })
-
-    EventsService.all().then(events => {
-      this.setState({ events })
+    Promise.all([
+      ContactsService.find(contactId),
+      ContactsService.actions(contactId),
+      StatusesService.all(),
+      EventsService.all(),
+    ]).then(([contact, contactActions, statuses, events]) => {
+      this.setState({
+        contact,
+        contactActions,
+        statuses,
+        events,
+      })
     })
   }
 
@@ -188,9 +187,9 @@ class ContactModal extends Component {
               <div className="big-info-pill" style={{borderColor: eventColor, color: eventColor}}>{eventName}</div>
               <div className="big-info-pill" style={{borderColor: statusColor, color: statusColor}}>{statusName}</div>
             </div>
-            <div className="modal-info-close">
+            <Link to="/contacts" className="modal-info-close">
               <i className="fas fa-times" onClick={closeModal}></i>
-            </div>
+            </Link>
           </div>
           <ContactActions
             contact={contact}
@@ -232,4 +231,4 @@ class ContactModal extends Component {
   }
 }
 
-export default ContactModal;
+export default withRouter(ContactModal);
