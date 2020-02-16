@@ -1,5 +1,6 @@
 import ApiService from './api-service';
 import TaskModel from '../models/task-model';
+import TaskTypeModel from '../models/task-type-model';
 
 class TasksService {
   static create({ contactId, params }) {
@@ -22,7 +23,7 @@ class TasksService {
   static types() {
     return ApiService.get({
       url: 'task_types',
-    }) //.then(taskTypes => taskTypes.map(taskType))
+    }).then(taskTypes => taskTypes.map(taskType => new TaskTypeModel(taskType)));
   }
 }
 

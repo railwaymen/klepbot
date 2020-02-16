@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resource :profile, only: %i[show update] do
       collection do
         post :read_notifications
+        get :tasks
       end
     end
     resources :notifications, only: :index
@@ -34,5 +35,7 @@ Rails.application.routes.draw do
   end
 
   get '/' => 'dashboard#show', constraints: { format: :html }
-  get '*url' => 'dashboard#show', constraints: { format: :html }
+  get '*pages' => 'dashboard#show', constraints: lambda { |req|
+    req.path.exclude? 'rails/active_storage'
+  }
 end

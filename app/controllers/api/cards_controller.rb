@@ -9,9 +9,9 @@ module Api
     end
 
     def show
-      card = Card.find(params[:id])
+      @card = Card.find(params[:id])
 
-      render json: card.as_json
+      respond_with @card
     end
 
     def create
