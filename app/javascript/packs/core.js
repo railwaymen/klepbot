@@ -29,6 +29,9 @@ import Status from '../src/pages/status';
 import Stats from '../src/pages/stats';
 
 import Profile from '../src/pages/profile';
+
+import Tasks from '../src/pages/tasks';
+
 import UsersService from '../src/services/users-service';
 
 class Core extends Component {
@@ -129,6 +132,9 @@ class Core extends Component {
                 </Route>
                 <Route path="/events" exact>
                   <Events />
+                </Route>
+                <Route path="/tasks" exact>
+                  <Tasks />
                 </Route>
                 <Route path="/events/new" exact>
                   <Event />

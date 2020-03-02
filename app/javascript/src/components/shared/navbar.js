@@ -27,6 +27,7 @@ export default function Navbar() {
             </RouteLinkWrapper>
             <RouteLinkWrapper name="Stats" to="/stats" />
             <RouteLinkWrapper name="Reports" to="/reports" />
+            <RouteLinkWrapper name="Tasks" to="/tasks" />
             <RouteLinkWrapper name="Profile" to="/profile" />
           </div>
           <div className="right-nav">

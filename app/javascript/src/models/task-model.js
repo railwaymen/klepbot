@@ -1,3 +1,5 @@
+import TaskTypeModel from "./task-type-model";
+
 class TaskModel {
   constructor({ id, user, created_at, created_by, user_id, task_type_id, title, send_at, description, type }) {
     this.id = id;
@@ -10,7 +12,7 @@ class TaskModel {
     this.sendAt = send_at;
     this.description = description;
 
-    this.type = type;
+    this.type = new TaskTypeModel(type);
   }
 
   toParams = () => ({

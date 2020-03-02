@@ -17,6 +17,16 @@ module Api
       current_user.update(notifications_last_read_at: Time.current)
     end
 
+    def tasks
+      @created_tasks = current_user.tasks.where(created_by_id: current_user.id)
+      @assigned_tasks = current_user.tasks.where(user_id: current_user.id)
+
+      render json: {
+        created_tasks: @created_tasks.as_json,
+        assigned_tasks: @assigned_tasks.as_json,
+      }
+    end
+
     def update
       @user = current_user
 
