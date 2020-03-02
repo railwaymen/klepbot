@@ -18,6 +18,7 @@ gem 'slim'
 gem 'jwt', require: false
 gem 'kaminari'
 gem 'sidekiq'
+gem "image_processing", "~> 1.0"
 
 group :development, :test do
   gem 'immigrant'
