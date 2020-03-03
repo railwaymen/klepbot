@@ -15,4 +15,20 @@ class Contact < ApplicationRecord
 
     actions.create!(action_attributes)
   end
+
+  def hubspot
+    Hubspot::Contact.new(
+      {
+        **attributes.symbolize_keys,
+      }
+    )
+  end
+
+  def hubspot_hash
+    {
+      firstname: first_name,
+      lastname: last_name,
+      email: email
+    }
+  end
 end
