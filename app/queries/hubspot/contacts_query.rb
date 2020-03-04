@@ -31,9 +31,9 @@ module Hubspot
         properties: properties
       })
 
-      raise record['message'] if record.dig('status', 'error').present?
+      raise record['message'] if record&.dig('status') == 'error'
 
-      initialize_contact(record.deep_symbolize_keys)
+      record['vid']
     end
 
     def self.update(vid, properties)
@@ -41,9 +41,7 @@ module Hubspot
         properties: properties
       })
 
-      raise record['message'] if record&.dig('status', 'error').present?
-
-      find(vid)
+      raise record['message'] if record&.dig('status') == 'error'
     end
 
     def self.initialize_contact(attributes)

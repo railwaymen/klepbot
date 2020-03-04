@@ -8,4 +8,8 @@ class User < ApplicationRecord
   has_many :notifications
   has_many :touched_contacts, class_name: 'Contact', foreign_key: :touched_id
   has_one_attached :avatar
+
+  def hubspot
+    Hubspot::OwnersQuery.find(hubspot_id) || Hubspot::OwnersQuery.find_by_email(email)
+  end
 end

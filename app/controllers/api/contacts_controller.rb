@@ -16,7 +16,7 @@ module Api
       contact = Contact.new(contact_params.merge(user_id: current_user.id, touched_id: current_user.id))
 
       if contact.save!
-        contact.hubspot.save
+        contact.hubspot_save
         render json: contact.as_json
       else
         render json: contact.errors.messages.as_json, status: :unprocessable_entity
@@ -41,6 +41,7 @@ module Api
         :category,
         :email,
         :contact_status_id,
+        :phone,
         :contact_event_id
       )
     end

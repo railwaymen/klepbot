@@ -3,6 +3,7 @@ import pytesseract
 import argparse
 import cv2
 import os
+import re
 from database import Database
 
 class CardOCR:
@@ -31,9 +32,9 @@ class CardOCR:
     return text
 
   def save(self):
-    sql = f"UPDATE cards SET metadata = '{self.read()}' WHERE cards.id = {self.card_id}"
+    sql = fr"UPDATE cards SET metadata = '%s' WHERE cards.id = {self.card_id}"
 
-    Database().execute(sql)
+    Database().execute(sql % self.read())
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", required=True,
@@ -46,4 +47,4 @@ ap.add_argument("-id", "--id", type=str, required=True,
 args = vars(ap.parse_args())
 
 ocr = CardOCR(args["image"], args["id"], preprocess=args["preprocess"])
-print(ocr.save())
+ocr.save()

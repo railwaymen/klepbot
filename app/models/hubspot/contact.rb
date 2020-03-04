@@ -4,7 +4,7 @@ module Hubspot
   class Contact < Model
     attr_accessor :vid, :first_name, :last_name, :email, :phone, :owner_id, :lifecycle_stage, :status
 
-    def initialize(vid: nil, first_name:, last_name:, email:, phone: nil, owner_id: nil, lifecycle_stage: nil, status: nil, **)
+    def initialize(vid: nil, first_name:, last_name:, email:, phone: nil, owner_id: nil, lifecycle_stage: nil, status: nil)
       @vid = vid
       @first_name = first_name
       @last_name = last_name
@@ -29,12 +29,15 @@ module Hubspot
       [
         { property: :email, value: @email },
         { property: :firstname, value: @first_name },
-        { property: :lastname, value: @last_name }
+        { property: :lastname, value: @last_name },
+        { property: :hubspot_owner_id, value: @owner_id }
       ]
     end
 
     def create
-      ContactsQuery.create(to_attributes)
+      saved_vid = ContactsQuery.create(to_attributes)
+
+      assign_attributes(vid: saved_vid)
     end
 
     def update

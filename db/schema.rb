@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_112608) do
+ActiveRecord::Schema.define(version: 2020_03_04_145228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,12 +42,12 @@ ActiveRecord::Schema.define(version: 2020_01_24_112608) do
     t.text "metadata"
     t.string "email"
     t.string "company_name"
-    t.string "phone_numbers"
     t.string "websites"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "body"
     t.string "possible_names", default: [], array: true
+    t.string "phones", default: [], array: true
   end
 
   create_table "contact_actions", force: :cascade do |t|
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 2020_01_24_112608) do
     t.bigint "touched_id"
     t.text "email_body"
     t.string "action_type", default: "update"
+    t.string "phone"
+    t.string "hubspot_id"
     t.index ["contact_event_id"], name: "index_contact_actions_on_contact_event_id"
     t.index ["contact_id"], name: "index_contact_actions_on_contact_id"
     t.index ["contact_status_id"], name: "index_contact_actions_on_contact_status_id"
@@ -99,6 +101,8 @@ ActiveRecord::Schema.define(version: 2020_01_24_112608) do
     t.bigint "contact_event_id", null: false
     t.bigint "user_id", null: false
     t.bigint "touched_id"
+    t.string "hubspot_id"
+    t.string "phone"
     t.index ["contact_event_id"], name: "index_contacts_on_contact_event_id"
     t.index ["contact_status_id"], name: "index_contacts_on_contact_status_id"
     t.index ["touched_id"], name: "index_contacts_on_touched_id"
@@ -158,6 +162,7 @@ ActiveRecord::Schema.define(version: 2020_01_24_112608) do
     t.string "last_name", null: false
     t.string "signature"
     t.datetime "notifications_last_read_at", default: -> { "now()" }
+    t.string "hubspot_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

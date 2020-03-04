@@ -16,19 +16,27 @@ class Contact < ApplicationRecord
     actions.create!(action_attributes)
   end
 
+  def hubspot_save
+    raise 'Already saved' if hubspot_id
+
+    hubspot.save
+    update(hubspot_id: hubspot.vid)
+  end
+
   def hubspot
-    Hubspot::Contact.new(
-      {
-        **attributes.symbolize_keys,
-      }
-    )
+    @hubspot ||= begin
+      return Hubspot::ContactsQuery.find(hubspot_id) if hubspot_id
+
+      Hubspot::Contact.new(hubspot_hash)
+    end
   end
 
   def hubspot_hash
     {
-      firstname: first_name,
-      lastname: last_name,
-      email: email
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      owner_id: user.hubspot_id
     }
   end
 end

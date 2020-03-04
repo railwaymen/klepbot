@@ -6,7 +6,7 @@ json.extract!(
   :email,
   :body,
   :metadata,
-  :phone_numbers,
+  :phones,
   :websites,
   :possible_names
 )

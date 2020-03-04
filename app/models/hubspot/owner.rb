@@ -4,11 +4,11 @@ module Hubspot
   class Owner < Model
     attr_accessor :portal_id, :id, :first_name, :last_name, :email
 
-    def initialize(portalId:, ownerId:, firstName:, lastName:, email:, **)
-      @portal_id = portalId
-      @id = ownerId
-      @first_name = firstName
-      @last_name = lastName
+    def initialize(portal_id:, owner_id:, first_name:, last_name:, email:)
+      @portal_id = portal_id
+      @id = owner_id
+      @first_name = first_name
+      @last_name = last_name
       @email = email
     end
   end
