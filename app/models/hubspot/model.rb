@@ -2,6 +2,8 @@
 
 module Hubspot
   class Model
+    class RecordError < StandardError; end
+
     def assign_attributes(attributes)
       attributes.each do |key, value|
         self.public_send(:"#{key}=", value)

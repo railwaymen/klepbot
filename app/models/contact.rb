@@ -17,7 +17,7 @@ class Contact < ApplicationRecord
   end
 
   def hubspot_save
-    raise 'Already saved' if hubspot_id
+    raise Hubspot::Model::RecordError, 'Already saved' if hubspot_id
 
     hubspot.save
     update(hubspot_id: hubspot.vid)

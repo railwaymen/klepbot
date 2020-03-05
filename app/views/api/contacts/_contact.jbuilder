@@ -7,7 +7,9 @@ json.extract!(
   :category,
   :email,
   :contact_status_id,
-  :contact_event_id
+  :contact_event_id,
+  :phone,
+  :hubspot_id
 )
 
 json.updated_at contact.updated_at.strftime('%H:%M %d-%m-%Y')

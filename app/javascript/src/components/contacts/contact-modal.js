@@ -195,6 +195,7 @@ class ContactModal extends Component {
             contact={contact}
             onComposeEmail={this.onEmailSubmit}
             onTaskSubmit={this.onTaskSubmit}
+            onHubspotSync={this.onHubspotSync}
           />
           <div className="row box">
             <div className="col-md-12">

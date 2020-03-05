@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resources :contacts, except: %i[destroy edit] do
       resources :actions, controller: :contact_actions, only: %i[index create]
       resources :tasks, only: %i[index create]
+      resource :hubspot, only: %i[create show], controller: :contact_hubspot
     end
     resources :email_templates, only: %i[index show create update]
     devise_for :users, controllers: { sessions: 'api/sessions' }

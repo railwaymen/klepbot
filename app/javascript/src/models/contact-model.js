@@ -1,9 +1,10 @@
 import StatusModel from "./status-model";
 import EventModel from "./event-model";
 import ContactActionModel from "./contact-action-model";
+import ContactsService from "../services/contacts-service";
 
 class ContactModel {
-  constructor({ id, first_name, last_name, group, category, email, status, event, updated_at, phone }) {
+  constructor({ id, first_name, last_name, group, category, email, status, event, updated_at, phone, hubspot_id }) {
     this.id = id;
     this.firstName = first_name || '';
     this.lastName = last_name || '';
@@ -12,6 +13,7 @@ class ContactModel {
     this.email = email || '';
     this.updatedAt = updated_at;
     this.phone = phone;
+    this.hubspotId = hubspot_id;
 
     this.fullName = `${this.firstName} ${this.lastName}`;
 

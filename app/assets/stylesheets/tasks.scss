@@ -53,6 +53,27 @@
   }
 
   .task-body {
+    .container-message-info {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+      min-height: 40vh;
+
+      .button-action {
+        padding: 6px 12px;
+        border: 2px solid #FF7A59;
+        color: #FF7A59;
+      }
+
+      h5 {
+        margin: 24px 0;
+        text-align: center;
+      }
+    }
+
     animation-name: task-slide-up;
     animation-duration: 0.2s;
     padding: 14px;
