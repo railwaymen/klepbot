@@ -13,7 +13,7 @@ module Hubspot
     end
 
     def self.find_by_email(email)
-      record = ApiService.api_get("owners/v2/owners", params: { email: email }).first
+      record = ApiService.api_get('owners/v2/owners', params: { email: email }).first
 
       raise record['message'] if record&.dig('status') == 'error'
 

@@ -52,6 +52,13 @@
     }
   }
 
+  .gradient-button {
+    padding: 12px 34px;
+    color: #eaeaea;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #6756A6, #BE83FD);
+  }
+
   .task-body {
     .container-message-info {
       display: flex;
@@ -61,12 +68,6 @@
       flex-direction: column;
       padding: 24px;
       min-height: 40vh;
-
-      .button-action {
-        padding: 6px 12px;
-        border: 2px solid #FF7A59;
-        color: #FF7A59;
-      }
 
       h5 {
         margin: 24px 0;

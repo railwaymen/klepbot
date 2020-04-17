@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PopupWrapper from './popup-wrapper';
 import ContactsService from '../../../services/contacts-service';
 import Loading from '../../shared/loading';
+import GradientButton from '../../shared/button';
 
 export default function ContactHubspot({ close, contact: { id } }) {
   const [contactHubspot, setContactHubspot] = useState({});
@@ -54,9 +55,7 @@ function DisconnectedHubspot({ onConnect }) {
   return (
     <div className="col container-message-info">
       <h5>Seems that your record is not connected yet to the Hubspot!</h5>
-      <div className="button-action" onClick={onConnect}>
-        Connect
-      </div>
+      <GradientButton onClick={onConnect}>Connect</GradientButton>
     </div>
   )
 }

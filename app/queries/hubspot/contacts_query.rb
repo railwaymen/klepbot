@@ -2,6 +2,8 @@
 
 module Hubspot
   class ContactsQuery
+    class RequestError < StandardError; end
+
     def self.find_by_email(email)
       record = ApiService.api_get("contacts/v1/contact/email/#{email}/profile")
 
@@ -11,37 +13,35 @@ module Hubspot
     def self.find(vid)
       record = ApiService.api_get("contacts/v1/contact/vid/#{vid}/profile")
 
-      raise record['message'] if record.dig('status', 'error').present?
+      raise RequestError, record['message'] if record.dig('status', 'error').present?
 
       initialize_contact(record.deep_symbolize_keys)
     end
 
     def self.search(query)
-      ApiService.api_get("contacts/v1/search/query", q: query)
-        .map(&:deep_symbolize_keys.to_proc >> Contact.method(:new))
+      ApiService.api_get('contacts/v1/search/query', q: query)
+                .map(&:deep_symbolize_keys.to_proc >> Contact.method(:new))
     end
 
     def self.all
-      ApiService.api_get("contacts/v1/lists/all/contacts/all")['contacts']
+      ApiService.api_get('contacts/v1/lists/all/contacts/all')['contacts']
                 .map(&:deep_symbolize_keys.to_proc >> Contact.method(:new))
     end
 
     def self.create(properties)
-      record = ApiService.api_post('contacts/v1/contact', {
-        properties: properties
-      })
+      record = ApiService.api_post('contacts/v1/contact',
+                                   properties: properties)
 
-      raise record['message'] if record&.dig('status') == 'error'
+      raise RequestError, record['message'] if record&.dig('status') == 'error'
 
       record['vid']
     end
 
     def self.update(vid, properties)
-      record = ApiService.api_put("contacts/v1/contact/vid/#{vid}/profile", {
-        properties: properties
-      })
+      record = ApiService.api_put("contacts/v1/contact/vid/#{vid}/profile",
+                                  properties: properties)
 
-      raise record['message'] if record&.dig('status') == 'error'
+      raise RequestError, record['message'] if record&.dig('status') == 'error'
     end
 
     def self.initialize_contact(attributes)

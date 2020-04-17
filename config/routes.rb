@@ -13,10 +13,17 @@ Rails.application.routes.draw do
     resources :contact_statuses, only: %i[index show create update destroy]
     resources :users, only: :index
     resources :task_types, only: %i[index create update]
+    resources :emails, only: %i[create] do
+      collection do
+        get :gmail_connected
+        get :gmail_grant
+      end
+    end
     resource :profile, only: %i[show update] do
       collection do
         post :read_notifications
         get :tasks
+        get :google_auth
       end
     end
     resources :notifications, only: :index

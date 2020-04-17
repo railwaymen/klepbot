@@ -6,7 +6,7 @@ module Hubspot
 
     def assign_attributes(attributes)
       attributes.each do |key, value|
-        self.public_send(:"#{key}=", value)
+        public_send(:"#{key}=", value)
       end
 
       self

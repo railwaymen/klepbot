@@ -8,6 +8,7 @@ import ContactEditForm from './contact-edit-form';
 import ContactAction from './contact-action';
 import EventsService from '../../services/events-service';
 import StatusesService from '../../services/statuses-service';
+import EmailsService from '../../services/emails-service';
 import ContactActions from './contact-actions';
 import TasksService from '../../services/tasks-service';
 import { Link, withRouter } from 'react-router-dom';
@@ -110,31 +111,35 @@ class ContactModal extends Component {
     this.setState({ contact });
   }
 
-  onEmailSubmit = (template) => {
+  onEmailSubmit = async (template) => {
     const {
       state: {
-        contactActions, contact
+        contactActions, contact: { email }
       },
       context: { pushNotification }
     } = this;
 
-    return ContactsService.createEmailAction(contact.id, template).then(contactAction => {
-      this.setState({
-        contactActions: [contactAction].concat(contactActions),
-      })
-    }).then(() => {
+    const emailParams = {
+      to: email,
+      body: template,
+      subject: 'Test',
+    };
+
+    try {
+      await EmailsService.create(emailParams);
+
       pushNotification({
         header: 'Success!',
         type: 'success',
         body: 'Your email template have been saved',
       });
-    }).catch(e => {
+    } catch (e) {
       pushNotification({
         header: 'Error!',
         type: 'error',
         body: `There was an error with processing request '${e.message}'`,
       });
-    });
+    }
   }
 
   onTaskSubmit = (params) => {

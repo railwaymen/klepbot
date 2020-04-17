@@ -55,12 +55,11 @@ module Cards
     end
 
     def find_phone_numbers(metadata)
-      @card.phone_numbers = metadata
-                            .scan(/((\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*)/)
-                            .flatten
-                            .map(&:strip)
-                            .filter { |n| n.present? && n.length > 5 }
-                            .join(',')
+      @card.phones = metadata
+                     .scan(/((\(?\+?[0-9]*\)?)?[0-9_\- \(\)]*)/)
+                     .flatten
+                     .map(&:strip)
+                     .filter { |n| n.present? && n.length > 5 }
     end
 
     def read

@@ -13,6 +13,8 @@ module Hubspot
       hubspot_contact.assign_attributes(@contact.hubspot_hash)
       hubspot_contact.save
       @contact.update(hubspot_id: hubspot_contact.vid)
+    rescue Hubspot::ContactsQuery::RequestError, e
+      errors.add(:hubspot, e)
     end
   end
 end

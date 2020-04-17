@@ -1,7 +1,6 @@
 import StatusModel from "./status-model";
 import EventModel from "./event-model";
 import ContactActionModel from "./contact-action-model";
-import ContactsService from "../services/contacts-service";
 
 class ContactModel {
   constructor({ id, first_name, last_name, group, category, email, status, event, updated_at, phone, hubspot_id }) {
