@@ -11,7 +11,7 @@ module Gmail
     def find(id)
       response = gmail_service.get(
         "users/me/messages/#{id}",
-        token: token,
+        token: @user.gmail.token,
         params: { format: :metadata }
       )
 
@@ -23,7 +23,7 @@ module Gmail
     def all
       response = gmail_service.get(
         'users/me/messages',
-        token: token
+        token: @user.gmail.token
       )
 
       return [] unless response.code == 200
@@ -32,10 +32,6 @@ module Gmail
     end
 
     private
-
-    def token
-      AuthorizeService.new(@user).token
-    end
 
     def gmail_service
       @gmail_service ||= ApiService.new(:gmail)

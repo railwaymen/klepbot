@@ -3,6 +3,7 @@ import EmailTemplates from '../shared/templates';
 import CurrentUserContext from '../../contexts/current-user-context';
 import GradientButton from '../shared/button';
 import EmailsService from '../../services/emails-service';
+import TinyMCE from '../shared/tiny-mce';
 
 export default function GmailCompose(props) {
   const [isGoogleConnected, setIsGoogleConnected] = useState(false);
@@ -27,28 +28,46 @@ export default function GmailCompose(props) {
   }
 }
 
-function ComposeEmail({ email, template, errors, onComposeEmail, setTemplate, replaceAttributesForEmailTemplate }) {
+function ComposeEmail({ setAttributes, email: { body, subject }, errors, onComposeEmail, contact: { replaceAttributesForEmailTemplate } }) {
   const onSubmit = () => {
-    onComposeEmail(template)
+    onComposeEmail()
   }
 
-  const onChange = ({ target: { value } }) => {
-    setTemplate(value);
+  const onChange = ({ target: { value, name } }) => {
+    setAttributes({ name, value });
   }
 
   const onSelectTemplate = (template, signature) => {
-    setTemplate(replaceAttributesForEmailTemplate(template.body, signature))
+    const emailBody = replaceAttributesForEmailTemplate(template.body, signature);
+    const emailSubject = template.subject;
+
+    setAttributes({
+      body: emailBody,
+      subject: emailSubject,
+    });
   }
 
   return (
     <div className="details col form-control-klepbot">
       <div className="email-body">
-        <p>{email}</p>
+        <div className="input-anim-container">
+          <label htmlFor="templateSubject">Subject</label>
+          <input
+            id="templateSubject"
+            type="text"
+            placeholder="Subject"
+            className="form-control"
+            value={subject}
+            onChange={onChange}
+            name="subject"
+          />
+          <div className={`border ${errors.subject ? 'error' : ''}`}></div>
+        </div>
         <div className="input-anim-container">
           <label htmlFor="templateBody">Body</label>
-          <div className={`border ${errors.template ? 'error' : ''}`}></div>
-          <textarea rows="12" placeholder="Write your email" id="templateBody" name="template" className="form-control" value={template} onChange={onChange} />
-          <div className={`border ${errors.template ? 'error' : ''}`}></div>
+          <div className={`border ${errors.body ? 'error' : ''}`}></div>
+          <TinyMCE value={body} onChange={onChange} name="body" />
+          <div className={`border ${errors.body ? 'error' : ''}`}></div>
         </div>
       </div>
       <EmailTemplatesForCurrentUser onSelect={onSelectTemplate} />

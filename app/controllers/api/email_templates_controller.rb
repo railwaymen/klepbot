@@ -33,7 +33,7 @@ module Api
     private
 
     def email_template_params
-      params.require(:email_template).permit(:name, :body)
+      params.require(:email_template).permit(:name, :body, :subject)
     end
   end
 end

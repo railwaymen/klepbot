@@ -20,6 +20,7 @@ gem 'kaminari'
 gem 'sidekiq'
 gem 'image_processing', '~> 1.0'
 gem 'httparty'
+gem 'mail'
 
 group :development, :test do
   gem 'immigrant'

@@ -2,20 +2,26 @@
 
 module Gmail
   class ComposeService
-    include HTTParty
-
     Email = Struct.new(:id, :thread_ids, :label_ids)
 
     def initialize(user, email)
       @user = user
       @email = email
+
+      @signature
+    end
+
+    def with_signature
+      @signature = SettingsService.new(@user).signatures.find { |s| s.is_primary }&.signature
+
+      self
     end
 
     def send_draft
       response = gmail_service.post(
         'users/me/drafts',
         params: { message: { raw: prepare_payload } },
-        token: token
+        token: @user.gmail.token
       )
 
       return unless response.code == 200
@@ -27,7 +33,7 @@ module Gmail
       response = gmail_service.post(
         'users/me/messages/send',
         params: { raw: prepare_payload },
-        token: token
+        token: @user.gmail.token
       )
 
       return unless response.code == 200
@@ -41,17 +47,28 @@ module Gmail
       @gmail_service ||= ApiService.new(:gmail)
     end
 
-    def token
-      AuthorizeService.new(@user).token
+    def prepare_body
+      return @email.body unless @signature.present?
+
+      "#{@email.body}
+
+      ---
+      #{@signature}"
     end
 
     def prepare_payload
+      body = prepare_body
+
       mail = Mail.new(
         from: @user.email,
         to: @email.to,
-        subject: @email.subject,
-        body: @email.body
-      )
+        subject: @email.subject
+      ) do
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body body
+        end
+      end
 
       Base64.urlsafe_encode64(mail.to_s).gsub(/\+/, '-').gsub(/\\/, '_')
     end

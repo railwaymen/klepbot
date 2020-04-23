@@ -111,22 +111,13 @@ class ContactModal extends Component {
     this.setState({ contact });
   }
 
-  onEmailSubmit = async (template) => {
+  onEmailSubmit = async (email) => {
     const {
-      state: {
-        contactActions, contact: { email }
-      },
       context: { pushNotification }
     } = this;
 
-    const emailParams = {
-      to: email,
-      body: template,
-      subject: 'Test',
-    };
-
     try {
-      await EmailsService.create(emailParams);
+      await EmailsService.create(email.toParams());
 
       pushNotification({
         header: 'Success!',

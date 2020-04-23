@@ -1,5 +1,6 @@
 import StatusModel from "./status-model";
 import EventModel from "./event-model";
+import EmailModel from "./email-model";
 import ContactActionModel from "./contact-action-model";
 
 class ContactModel {
@@ -29,6 +30,14 @@ class ContactModel {
       event: this.event,
     })
   )
+
+  buildEmail = () => {
+    const email = new EmailModel({
+      to: this.email,
+    });
+
+    return email;
+  }
 
   replaceAttributesForEmailTemplate = (template, signature = 'Missing signature!') => {
     let resolvedTempalte = template;

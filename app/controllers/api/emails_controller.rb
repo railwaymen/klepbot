@@ -7,10 +7,7 @@ module Api
 
       if authorized
         email = current_user.emails.create!(email_params)
-
-        gmail = Gmail::ComposeService.new(current_user, email).send
-
-        email.update!(google_id: gmail.id)
+        email.gmail_send
 
         render json: email.as_json
       else
