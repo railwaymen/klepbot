@@ -2,32 +2,25 @@
 
 module Api
   class EmailsController < BaseController
+    def index
+      @emails = Contact.find(params[:contact_id]).emails.includes(:user).order(created_at: :desc)
+    end
+
+    def show
+      @email = Contact.find(params[:contact_id]).emails.find(params[:id])
+    end
+
     def create
-      authorized = Gmail::AuthorizeService.new(current_user).valid?
+      contact = Contact.find(params[:contact_id])
+      @email = contact.emails.build(
+        email_params.merge(
+          user_id: current_user.id,
+          read_token: SecureRandom.uuid
+        )
+      )
 
-      if authorized
-        email = current_user.emails.create!(email_params)
-        email.gmail_send
-
-        render json: email.as_json
-      else
-        render json: {}, status: :unprocessable_entity
-      end
-    end
-
-    def gmail_connected
-      service = Gmail::AuthorizeService.new(current_user)
-
-      render json: { gmail_connected: service.valid? }
-    end
-
-    def gmail_grant
-      service = Gmail::AuthorizeService.new(current_user)
-
-      response = service.grant!(params[:code])
-
-      if response
-        render json: {}, status: :ok
+      if current_user.gmail.valid? && @email.save
+        @email.gmail_send
       else
         render json: {}, status: :unprocessable_entity
       end

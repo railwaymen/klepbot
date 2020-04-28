@@ -34,6 +34,7 @@ class ContactModel {
   buildEmail = () => {
     const email = new EmailModel({
       to: this.email,
+      contact_id: this.id,
     });
 
     return email;

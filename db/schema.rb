@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_082815) do
+ActiveRecord::Schema.define(version: 2020_04_28_072952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,10 @@ ActiveRecord::Schema.define(version: 2020_04_23_082815) do
     t.string "google_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "contact_id", null: false
+    t.datetime "read_at"
+    t.string "read_token"
+    t.index ["contact_id"], name: "index_emails_on_contact_id"
     t.index ["user_id"], name: "index_emails_on_user_id"
   end
 
@@ -178,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_082815) do
     t.string "google_auth_token"
     t.string "google_refresh_token"
     t.string "google_auth_token_expire_at"
+    t.text "gmail_signature"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -192,6 +197,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_082815) do
   add_foreign_key "contacts", "contact_statuses"
   add_foreign_key "contacts", "users"
   add_foreign_key "contacts", "users", column: "touched_id"
+  add_foreign_key "emails", "contacts"
   add_foreign_key "emails", "users"
   add_foreign_key "notifications", "contacts"
   add_foreign_key "notifications", "tasks"

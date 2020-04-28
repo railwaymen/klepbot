@@ -22,6 +22,7 @@
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-timeseries-charts": "^0.16.1",
+    "react-trix": "^0.7.0",
     "react-vis": "^1.11.7",
     "turbolinks": "^5.2.0"
   },

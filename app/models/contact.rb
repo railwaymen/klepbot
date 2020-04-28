@@ -4,6 +4,7 @@ class Contact < ApplicationRecord
   belongs_to :event, class_name: 'ContactEvent', foreign_key: :contact_event_id
   belongs_to :user
   has_many :tasks
+  has_many :emails
   belongs_to :touched, class_name: 'User', foreign_key: :touched_id
 
   def update_with_action(params)

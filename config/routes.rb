@@ -6,22 +6,18 @@ Rails.application.routes.draw do
   root 'dashboard#show'
 
   resource :dashboard, only: :show, controller: :dashboard
+  get '/images/:id' => 'emails#track', as: 'track'
 
-  namespace :api, constraints: { format: 'json' } do
+  namespace :api, constraints: { format: ['json', 'png'] } do
     resource :gmail, only: [], controller: :gmail do
       get :grant
+      get :connected
     end
     resources :cards, only: %i[index show create update]
     resources :contact_events, only: %i[index show create update destroy]
     resources :contact_statuses, only: %i[index show create update destroy]
     resources :users, only: :index
     resources :task_types, only: %i[index create update]
-    resources :emails, only: %i[create] do
-      collection do
-        get :gmail_connected
-        get :gmail_grant
-      end
-    end
     resource :profile, only: %i[show update] do
       collection do
         post :read_notifications
@@ -40,6 +36,7 @@ Rails.application.routes.draw do
       resources :actions, controller: :contact_actions, only: %i[index create]
       resources :tasks, only: %i[index create]
       resource :hubspot, only: %i[create show], controller: :contact_hubspot
+      resources :emails, only: %i[index show create]
     end
     resources :email_templates, only: %i[index show create update]
     devise_for :users, controllers: { sessions: 'api/sessions' }

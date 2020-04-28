@@ -12,7 +12,7 @@ module Gmail
     end
 
     def with_signature
-      @signature = SettingsService.new(@user).signatures.find { |s| s.is_primary }&.signature
+      @signature = @user.gmail_signature
 
       self
     end
@@ -48,12 +48,16 @@ module Gmail
     end
 
     def prepare_body
-      return @email.body unless @signature.present?
+      return "#{@email.body} #{prepare_read}" unless @signature.present?
 
       "#{@email.body}
-
+      #{prepare_read}
       ---
       #{@signature}"
+    end
+
+    def prepare_read
+      "<img src=\"klepbot.railwaymen.org/images/#{@email.read_token}$#{@email.id}.jpg\" />"
     end
 
     def prepare_payload

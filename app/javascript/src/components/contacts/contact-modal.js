@@ -12,6 +12,7 @@ import EmailsService from '../../services/emails-service';
 import ContactActions from './contact-actions';
 import TasksService from '../../services/tasks-service';
 import { Link, withRouter } from 'react-router-dom';
+import Emails from '../emails/contact-emails';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -113,11 +114,12 @@ class ContactModal extends Component {
 
   onEmailSubmit = async (email) => {
     const {
-      context: { pushNotification }
+      context: { pushNotification },
+      state: { contact: { id } },
     } = this;
 
     try {
-      await EmailsService.create(email.toParams());
+      await EmailsService.create(id, email.toParams());
 
       pushNotification({
         header: 'Success!',
@@ -169,7 +171,7 @@ class ContactModal extends Component {
         contact,
         contactActions,
       },
-      props: { closeModal },
+      props: { closeModal, contactId },
     } = this;
 
     return (
@@ -209,6 +211,9 @@ class ContactModal extends Component {
               </div>
             </div>
           </div>
+          <Emails
+            contactId={contactId}
+          />
           <div className="history row box">
             <div className="col-md-12">
               <h4>History</h4>

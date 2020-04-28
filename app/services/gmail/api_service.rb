@@ -9,6 +9,7 @@ module Gmail
 
     CLIENT_ID = Rails.application.credentials.google.fetch(:client_id)
     CLIENT_SECRET = Rails.application.credentials.google.fetch(:client_secret)
+    REDIRECT = Rails.application.credentials.google.fetch(:redirect)
 
     def initialize(scope)
       @api_path = SCOPES[scope.to_sym || :gmail]
