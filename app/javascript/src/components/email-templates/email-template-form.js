@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotificationsContext from '../../contexts/notifications-context';
+import TinyMCE from '../shared/tiny-mce';
 
 class EmailTemplateForm extends Component {
   static contextType = NotificationsContext;
@@ -7,12 +8,13 @@ class EmailTemplateForm extends Component {
   constructor(props) {
     super(props);
 
-    const { name, body, id } = this.props;
+    const { name, body, subject, id } = this.props;
 
     this.state = {
       id,
       name,
-      body
+      subject,
+      body,
     };
   }
 
@@ -20,17 +22,18 @@ class EmailTemplateForm extends Component {
     e.preventDefault();
 
     const {
-      state: { name, body, id },
+      state: { name, body, subject, id },
       props: { onSave }
     } = this;
 
-    const params = { name, body };
+    const params = { name, body, subject };
 
     onSave(params, id)
       .then(template => {
         this.setState({
           name: template.name,
-          body: template.body
+          body: template.body,
+          body: template.subject,
         });
 
         this.context.pushNotification({
@@ -52,17 +55,19 @@ class EmailTemplateForm extends Component {
     })
   }
 
+  injectVariable = (name) => {
+    const { body } = this.state;
+
+    this.setState({
+      body: `${body} {{${name}}}`,
+    });
+  }
+
   render() {
-    const { name, body } = this.state;
+    const { name, body, subject } = this.state;
 
     return (
       <form className="col form-control-klepbot">
-        <div className="variables">
-          <h4>Possible variables</h4>
-          <p>{'{{firstName}}'}</p>
-          <p>{'{{lastName}}'}</p>
-          <p>{'{{signature}}'}</p>
-        </div>
         <div className="form-group input-anim-container">
           <label htmlFor="name">Name</label>
           <input
@@ -77,13 +82,27 @@ class EmailTemplateForm extends Component {
           <div className="border"></div>
         </div>
         <div className="form-group input-anim-container">
-          <label htmlFor="body">Body</label>
-          <div className="border"></div>
-          <textarea
-            id="body"
+          <label htmlFor="subject">Subject</label>
+          <input
+            id="subject"
             type="text"
+            placeholder="Mail subject"
             className="form-control"
-            placeholder="Template body"
+            value={subject}
+            onChange={this.onChange}
+            name="subject"
+          />
+          <div className="border"></div>
+        </div>
+        <div className="form-group input-anim-container">
+          <label htmlFor="body">Body</label>
+          <div className="variables">
+            <span className="variable" onClick={() => this.injectVariable('firstName')}>First name</span>
+            <span className="variable" onClick={() => this.injectVariable('lastName')}>Last name</span>
+            <span className="variable" onClick={() => this.injectVariable('signature')}>Signature</span>
+          </div>
+          <div className="border"></div>
+          <TinyMCE
             value={body}
             onChange={this.onChange}
             name="body"

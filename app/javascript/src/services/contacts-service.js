@@ -2,12 +2,41 @@ import ApiService from './api-service';
 import ContactModel from '../models/contact-model';
 import ContactActionModel from '../models/contact-action-model';
 
+class ContactHubspotModel {
+  constructor({vid, first_name, last_name, email, phone, owner_id, lifecycle_stage, status}) {
+    this.vid = vid;
+    this.firstName = first_name;
+    this.lastName = last_name;
+    this.email = email;
+    this.phone = phone;
+    this.ownerId = owner_id;
+    this.lifecycleStage = lifecycle_stage;
+    this.status = status;
+  }
+}
+
 class ContactsService {
   static async find(id) {
     return ApiService.get({
       url: `contacts/${id}`
     }).then(contact => (
       new ContactModel(contact)
+    ))
+  }
+
+  static async hubspot(id) {
+    return ApiService.get({
+      url: `contacts/${id}/hubspot`
+    }).then(contact => (
+      new ContactHubspotModel(contact)
+    ))
+  }
+
+  static async hubspotSave(id) {
+    return ApiService.post({
+      url: `contacts/${id}/hubspot`
+    }).then(contact => (
+      new ContactHubspotModel(contact)
     ))
   }
 

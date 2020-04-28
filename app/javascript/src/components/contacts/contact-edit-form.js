@@ -33,6 +33,7 @@ class ContactEditForm extends Component {
       group,
       category,
       email,
+      phone,
       statuses,
       events,
       status: { id: statusId },
@@ -66,7 +67,6 @@ class ContactEditForm extends Component {
           />
           <div className="border"></div>
         </div>
-
         <div className="input-group mb-3 input-anim-container">
           <input
             type="email"
@@ -75,6 +75,18 @@ class ContactEditForm extends Component {
             aria-label="email"
             value={email}
             name="email"
+            onChange={this.onChange}
+          />
+          <div className="border"></div>
+        </div>
+        <div className="input-group mb-3 input-anim-container">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Phone"
+            aria-label="phone"
+            value={phone}
+            name="phone"
             onChange={this.onChange}
           />
           <div className="border"></div>

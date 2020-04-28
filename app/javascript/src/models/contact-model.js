@@ -1,9 +1,10 @@
 import StatusModel from "./status-model";
 import EventModel from "./event-model";
+import EmailModel from "./email-model";
 import ContactActionModel from "./contact-action-model";
 
 class ContactModel {
-  constructor({ id, first_name, last_name, group, category, email, status, event, updated_at }) {
+  constructor({ id, first_name, last_name, group, category, email, status, event, updated_at, phone, hubspot_id }) {
     this.id = id;
     this.firstName = first_name || '';
     this.lastName = last_name || '';
@@ -11,8 +12,10 @@ class ContactModel {
     this.category = category || '';
     this.email = email || '';
     this.updatedAt = updated_at;
+    this.phone = phone;
+    this.hubspotId = hubspot_id;
 
-    this.fullName = `${this.firstName} ${this.lastName}`
+    this.fullName = `${this.firstName} ${this.lastName}`;
 
     this.status = new StatusModel(status || {});
     this.event = new EventModel(event || {});
@@ -27,6 +30,15 @@ class ContactModel {
       event: this.event,
     })
   )
+
+  buildEmail = () => {
+    const email = new EmailModel({
+      to: this.email,
+      contact_id: this.id,
+    });
+
+    return email;
+  }
 
   replaceAttributesForEmailTemplate = (template, signature = 'Missing signature!') => {
     let resolvedTempalte = template;
@@ -48,6 +60,7 @@ class ContactModel {
     email: this.email,
     contact_status_id: this.status.id,
     contact_event_id: this.event.id,
+    phone: this.phone,
   })
 }
 

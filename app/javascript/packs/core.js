@@ -31,6 +31,7 @@ import Stats from '../src/pages/stats';
 import Profile from '../src/pages/profile';
 
 import Tasks from '../src/pages/tasks';
+import Gmail from '../src/pages/gmail';
 
 import UsersService from '../src/services/users-service';
 
@@ -156,6 +157,9 @@ class Core extends Component {
                 </Route>
                 <Route path="/profile" exact>
                   <Profile />
+                </Route>
+                <Route path="/gmail" exact>
+                  <Gmail ></Gmail>
                 </Route>
               </Switch>
             </div>

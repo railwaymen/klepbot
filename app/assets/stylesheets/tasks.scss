@@ -52,7 +52,29 @@
     }
   }
 
+  .gradient-button {
+    padding: 12px 34px;
+    color: #eaeaea;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #6756A6, #BE83FD);
+  }
+
   .task-body {
+    .container-message-info {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+      min-height: 40vh;
+
+      h5 {
+        margin: 24px 0;
+        text-align: center;
+      }
+    }
+
     animation-name: task-slide-up;
     animation-duration: 0.2s;
     padding: 14px;

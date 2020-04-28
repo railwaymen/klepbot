@@ -2,8 +2,6 @@
 
 module Export
   class BaseService
-    def initialize(klass)
-
-    end
+    def initialize(klass); end
   end
 end

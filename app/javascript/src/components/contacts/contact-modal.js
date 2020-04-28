@@ -8,9 +8,11 @@ import ContactEditForm from './contact-edit-form';
 import ContactAction from './contact-action';
 import EventsService from '../../services/events-service';
 import StatusesService from '../../services/statuses-service';
+import EmailsService from '../../services/emails-service';
 import ContactActions from './contact-actions';
 import TasksService from '../../services/tasks-service';
 import { Link, withRouter } from 'react-router-dom';
+import Emails from '../emails/contact-emails';
 
 class ContactModal extends Component {
   static contextType = NotificationsContext;
@@ -110,31 +112,27 @@ class ContactModal extends Component {
     this.setState({ contact });
   }
 
-  onEmailSubmit = (template) => {
+  onEmailSubmit = async (email) => {
     const {
-      state: {
-        contactActions, contact
-      },
-      context: { pushNotification }
+      context: { pushNotification },
+      state: { contact: { id } },
     } = this;
 
-    return ContactsService.createEmailAction(contact.id, template).then(contactAction => {
-      this.setState({
-        contactActions: [contactAction].concat(contactActions),
-      })
-    }).then(() => {
+    try {
+      await EmailsService.create(id, email.toParams());
+
       pushNotification({
         header: 'Success!',
         type: 'success',
         body: 'Your email template have been saved',
       });
-    }).catch(e => {
+    } catch (e) {
       pushNotification({
         header: 'Error!',
         type: 'error',
         body: `There was an error with processing request '${e.message}'`,
       });
-    });
+    }
   }
 
   onTaskSubmit = (params) => {
@@ -173,7 +171,7 @@ class ContactModal extends Component {
         contact,
         contactActions,
       },
-      props: { closeModal },
+      props: { closeModal, contactId },
     } = this;
 
     return (
@@ -195,6 +193,7 @@ class ContactModal extends Component {
             contact={contact}
             onComposeEmail={this.onEmailSubmit}
             onTaskSubmit={this.onTaskSubmit}
+            onHubspotSync={this.onHubspotSync}
           />
           <div className="row box">
             <div className="col-md-12">
@@ -212,6 +211,9 @@ class ContactModal extends Component {
               </div>
             </div>
           </div>
+          <Emails
+            contactId={contactId}
+          />
           <div className="history row box">
             <div className="col-md-12">
               <h4>History</h4>
